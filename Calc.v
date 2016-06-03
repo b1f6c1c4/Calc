@@ -9,5 +9,10 @@ module Calc(
 	output [7:0] LD,
 	output Buzz
    );
-
+   
+   // fundamental modules
+   wire Clock, Reset;
+   assign Clock = CLK;
+   rst_recover rst(Clock, RST, Reset);
+   
 endmodule
