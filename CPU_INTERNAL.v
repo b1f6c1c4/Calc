@@ -11,6 +11,5 @@
 `define CO_DI 3'h3
 `define CO_LP 3'h4
 `define CO_RP 3'h5
-`define CO_OK 3'h6
 
 `endif

@@ -26,4 +26,8 @@ module CPU(
    alu #(`CD_N) al(.A(al_A), .B(al_B),
                    .cmd(al_cmd), .C(al_C));
    
+   wire [`CO_N-1:0] pr_A, pr_B;
+   wire pr_res;
+   precedence prec(.A(pr_A), .B(pr_B), .lle_rlt(pr_res));
+   
 endmodule
