@@ -11,4 +11,10 @@ module Output(
 	output Buzz
    );
    
+   wire [0:7] oct0, oct1, oct2, oct3;
+   
+   Output_scanner scan(.Clock(Clock), .Reset(Reset),
+                       .oct0(oct0), .oct1(oct1), .oct2(oct2), .oct3(oct3),
+                       .SD(SD), .SEG(SEG));
+   
 endmodule
