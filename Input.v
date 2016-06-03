@@ -10,7 +10,11 @@ module Input(
    );
    
    wire [15:0] key;
+   
    Input_keyboard keybd(.Clock(Clock), .Reset(Reset),
                         .H(H), .V(V), .res(key));
+   
+   Input_encoder enc(.Clock(Clock), .Reset(Reset),
+                     .key(key), .cmd(cmd));
    
 endmodule
