@@ -9,4 +9,8 @@ module Input(
    output [`IC_N-1:0] cmd
    );
    
+   wire [15:0] key;
+   Input_keyboard keybd(.Clock(Clock), .Reset(Reset),
+                        .H(H), .V(V), .res(key));
+   
 endmodule
