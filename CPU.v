@@ -21,4 +21,9 @@ module CPU(
    stack #(`CO_N) op(.Clock(Clock), .Reset(Reset),
                      .data(op_data), .cmd(op_cmd));
    
+   wire [`CD_N-1:0] al_A, al_B, al_C;
+   wire [`AC_N-1:0] al_cmd;
+   alu #(`CD_N) al(.A(al_A), .B(al_B),
+                   .cmd(al_cmd), .C(al_C));
+   
 endmodule
