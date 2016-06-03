@@ -7,5 +7,6 @@
 `define OC_NON 2'h0
 `define OC_ACK 2'h1
 `define OC_NUM 2'h2
+`define OC_ERR 2'h3
 
 `endif
