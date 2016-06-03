@@ -22,6 +22,6 @@
 `define IC_EXRP 5'h11
 `define IC_CLBK 5'h12
 `define IC_CLCL 5'h12
-`define IC_CLAC 5'h13
+`define IC_CTOK 5'h1f
 
 `endif
