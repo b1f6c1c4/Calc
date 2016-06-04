@@ -45,6 +45,17 @@ module stack(
                      buff <= ram[ptr - 6'b1];
                      out_ena <= 1'b1;
                   end
+            `SC_ALT:
+               if (|ptr)
+                  begin
+                     ram[ptr - 6'b1] <= data;
+                     out_ena <= 1'b0;
+                  end
+            `SC_CLR:
+               begin
+                  ptr <= 6'b0;
+                  out_ena <= 1'b0;
+               end
             default:
                out_ena <= 1'b0;
          endcase
