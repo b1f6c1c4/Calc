@@ -7,6 +7,7 @@
 module controller(
    input Clock,
    input Reset,
+   output reg [`CS_N:0] state,
    // io
    output in_ack,
    input [`IC_N-1:0] in_cmd,
@@ -46,8 +47,6 @@ module controller(
    input pr_res
    );
    
-   reg [`CS_N:0] state;
-   
    always @(posedge Clock, negedge Reset)
       if (~Reset)
          state <= `CS_X_INPUT;
@@ -65,7 +64,7 @@ module controller(
                   `IC_CLBK: state <= `CS_X_INPUT;
                   `IC_CLCL: state <= `CS_X_INPUT;
                   `IC_NONE: state <= `CS_X_INPUT;
-                  default: state <= `CS_PARSE;
+                  default: state <= `CS_X_PARSE;
                endcase
             `CS_PARSE:
                case (operator_Q)
@@ -116,18 +115,19 @@ module controller(
             `CS_CLEAR:
                state <= `CS_X_INPUT;
             `CS_FLUSH:
-               if (op_empty)
-                  if (operator_Q == `IC_EXRP)
-                     state <= `CS_ERROR;
-                  else
-                     state <= `CS_PUSH_OP;
-               else
+               if (~op_empty)
                   state <= `CS_COMPARE;
+               else if (operator_Q == `CO_RP)
+                  state <= `CS_ERROR;
+               else if (operator_Q == `CO_OK)
+                  state <= `CS_INPUT;
+               else
+                  state <= `CS_PUSH_OP;
             `CS_COMPARE:
-               if (pr_res || operator_Q == `CO_RP && op_data != `CO_LP)
-                  state <= `CS_EVALUATE;
-               else if (operator_Q == `CO_RP && op_data == `CO_LP)
+               if (operator_Q == `CO_RP && op_data == `CO_LP)
                   state <= `CS_POP_OP;
+               else if (pr_res || operator_Q == `CO_RP && op_data != `CO_LP)
+                  state <= `CS_EVALUATE;
                else
                   state <= `CS_PUSH_OP;
             `CS_EVALUATE:
@@ -151,7 +151,7 @@ module controller(
             `CS_PUSH_OP:
                state <= `CS_X_INPUT;
             `CS_POP_OP:
-               state <= `CS_X_INPUT;
+               state <= `CS_INPUT;
             `CS_PUSH_SIGN:
                state <= `CS_X_INPUT;
             `CS_ERROR:

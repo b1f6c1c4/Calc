@@ -49,6 +49,17 @@ module controller_io(
          end
       else
          case (state)
+            `CS_INPUT:
+               if (in_cmd == `IC_CLCL)
+                  begin
+                     out_data <= {`OD_N{1'b0}};
+                     out_cmd <= `OC_ACK;
+                  end
+               else
+                  begin
+                     out_data <= {`OD_N{1'b0}};
+                     out_cmd <= `OC_NON;
+                  end
             `CS_PARSE:
                case (operator_Q)
                   `CO_LP, `CO_AD, `CO_SB, `CO_MU, `CO_DI, `CO_RP, `CO_OK:
