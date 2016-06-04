@@ -8,20 +8,20 @@
 // Initial: CS_X_INPUT
 
 
-/* wait for input (after digit)
+/* wait for input (after digit); load operator & digit
 input IC_CLBK: CS_BACK
-input IC_CLCL: CS_CLEAR
+input IC_CLCL: CS_CLEAR; output ACK
 input NUM/OP : CS_PARSE
 */
 `define CS_INPUT 5'h00
 
-/* wait for input (after operator)
+/* wait for input (after operator); load operator & digit
 input NUM/OP : CS_X_PARSE
 */
 `define CS_X_INPUT 5'h01
 
 
-/* load operator & digit
+/*
 op CO_LP: CS_PUSH_OP; output ACK
 op CO_RP: CS_FLUSH; output ACK
 op CO_OK: CS_FLUSH; output ACK
@@ -81,7 +81,7 @@ any: CS_SAVE
 
 /* pop-dt; output NUM 0
 dt empty: CS_X_INPUT
-dt not  : CS_X_INPUT; output ACK
+dt not  : CS_X_INPUT
 */
 `define CS_CLEAR 5'h0b
 
