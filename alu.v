@@ -14,6 +14,7 @@ module alu(
          `AC_SB: C <= A - B;
          `AC_MU: C <= A * B;
          `AC_DI: C <= A / B;
+         `AC_RM: C <= A % B;
          default: C <= {N{1'bx}};
       endcase
    
