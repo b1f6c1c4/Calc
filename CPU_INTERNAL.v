@@ -2,6 +2,8 @@
 `define __CPU_INTERNAL
 
 `define CD_N 16
+`define CD_0 {`CD_N{1'b0}}
+`define CD_Z {`CD_N{1'bz}}
 
 `define CO_N 3
 
