@@ -93,13 +93,13 @@ module controller_alu(
                   `CO_PS:
                      begin
                         al_A <= `CD_0;
-                        al_B <= number_Q;
+                        al_B <= dt_data;
                         al_cmd <= `AC_AD;
                      end
                   `CO_NS:
                      begin
                         al_A <= `CD_0;
-                        al_B <= number_Q;
+                        al_B <= dt_data;
                         al_cmd <= `AC_SB;
                      end
                   default:

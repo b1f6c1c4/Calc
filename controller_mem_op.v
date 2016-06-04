@@ -57,12 +57,12 @@ module controller_mem_op(
                   `CO_AD:
                      begin
                         op_data_D <= `CO_PS;
-                        op_cmd <= `SC_POP;
+                        op_cmd <= `SC_PUS;
                      end
                   `CO_SB:
                      begin
                         op_data_D <= `CO_NS;
-                        op_cmd <= `SC_POP;
+                        op_cmd <= `SC_PUS;
                      end
                   default:
                      begin

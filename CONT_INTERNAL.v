@@ -94,8 +94,8 @@ op not : CS_COMPARE
 `define CS_FLUSH 5'h0c
 
 /* operator_x = op; compare operator op
-lle-rlt || operator==CO_RP && op~=CO_LP: CS_EVALUATE
 operator==CO_RP && op==CO_LP: CS_POP_OP
+lle-rlt || operator==CO_RP && op~=CO_LP: CS_EVALUATE
 otherwise: CS_PUSH_OP
 */
 `define CS_COMPARE 5'h0d
@@ -136,7 +136,7 @@ any: CS_X_INPUT
 `define CS_PUSH_OP 5'h13
 
 /* pop-op
-any: CS_X_INPUT
+any: CS_INPUT
 */
 `define CS_POP_OP 5'h14
 

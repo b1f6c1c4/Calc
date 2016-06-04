@@ -13,6 +13,7 @@ module precedence(
                `CO_OK, `CO_LP, `CO_RP: lle_rlt <= 1'b1;
                `CO_AD, `CO_SB: lle_rlt <= 1'b1;
                `CO_MU, `CO_DI: lle_rlt <= 1'b1;
+               `CO_PS, `CO_NS: lle_rlt <= 1'b1;
                default: lle_rlt <= 1'bx;
             endcase
          `CO_AD, `CO_SB:
@@ -20,6 +21,7 @@ module precedence(
                `CO_OK, `CO_LP, `CO_RP: lle_rlt <= 1'b0;
                `CO_AD, `CO_SB: lle_rlt <= 1'b1;
                `CO_MU, `CO_DI: lle_rlt <= 1'b1;
+               `CO_PS, `CO_NS: lle_rlt <= 1'b1;
                default: lle_rlt <= 1'bx;
             endcase
          `CO_MU, `CO_DI:
@@ -27,6 +29,15 @@ module precedence(
                `CO_OK, `CO_LP, `CO_RP: lle_rlt <= 1'b0;
                `CO_AD, `CO_SB: lle_rlt <= 1'b0;
                `CO_MU, `CO_DI: lle_rlt <= 1'b1;
+               `CO_PS, `CO_NS: lle_rlt <= 1'b1;
+               default: lle_rlt <= 1'bx;
+            endcase
+         `CO_PS, `CO_NS:
+            case (B)
+               `CO_OK, `CO_LP, `CO_RP: lle_rlt <= 1'b0;
+               `CO_AD, `CO_SB: lle_rlt <= 1'b0;
+               `CO_MU, `CO_DI: lle_rlt <= 1'b0;
+               `CO_PS, `CO_NS: lle_rlt <= 1'b1;
                default: lle_rlt <= 1'bx;
             endcase
          default: lle_rlt <= 1'bx;
