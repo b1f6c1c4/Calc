@@ -82,7 +82,7 @@ module Output(
    always @(*)
       if (is_err)
          oct0 <= 8'b01100001;
-      else if (|bcd0)
+      else if (|bcd3)
          oct0 <= oct0t & (data_sign ? 8'b11111101 : 8'b11111111);
       else
          oct0 <= data_sign ? 8'b11111101 : 8'b11111111;
@@ -90,7 +90,7 @@ module Output(
    always @(*)
       if (is_err)
          oct1 <= 8'b01100001;
-      else if (|bcd0 || |bcd1)
+      else if (|bcd3 || |bcd2)
          oct1 <= oct1t;
       else
          oct1 <= 8'b11111111;
@@ -98,7 +98,7 @@ module Output(
    always @(*)
       if (is_err)
          oct2 <= 8'b01100001;
-      else if (|bcd0 || |bcd1 || |bcd2)
+      else if (|bcd3 || |bcd2 || |bcd1)
          oct2 <= oct2t;
       else
          oct2 <= 8'b11111111;
@@ -106,16 +106,14 @@ module Output(
    always @(*)
       if (is_err)
          oct3 <= 8'b01100001;
-      else if (|bcd0 || |bcd1 || |bcd2 || |bcd3)
-         oct3 <= oct3t;
       else
-         oct3 <= 8'b11111111;
+         oct3 <= oct3t;
    
    // main modules
-   Output_num_decoder dec0(.bcd(bcd0), .dot(1'b0), .oct(oct0t));
-   Output_num_decoder dec1(.bcd(bcd1), .dot(1'b0), .oct(oct1t));
-   Output_num_decoder dec2(.bcd(bcd2), .dot(1'b0), .oct(oct2t));
-   Output_num_decoder dec3(.bcd(bcd3), .dot(1'b0), .oct(oct3t));
+   Output_num_decoder dec0(.bcd(bcd3), .dot(1'b0), .oct(oct0t));
+   Output_num_decoder dec1(.bcd(bcd2), .dot(1'b0), .oct(oct1t));
+   Output_num_decoder dec2(.bcd(bcd1), .dot(1'b0), .oct(oct2t));
+   Output_num_decoder dec3(.bcd(bcd0), .dot(1'b0), .oct(oct3t));
    
    Output_divider divi(.Clock(Clock), .Reset(Reset),
                        .load(cmd == `OC_NUM), .data(abs_data),
