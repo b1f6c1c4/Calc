@@ -101,7 +101,7 @@ otherwise: CS_PUSH_OP
 `define CS_COMPARE 5'h0d
 
 
-/* pop-dt
+/* pop-dt; pop-op
 dt empty: CS_ERROR
 operator_x==SIGN: CS_CHG_SIGN
 otherwise: CS_EVALUATE_D

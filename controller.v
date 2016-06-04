@@ -161,7 +161,7 @@ module controller(
    // executor
    controller_io io(
       .Reset(Reset), .state(state), .in_cmd(in_cmd),
-      .command_Q(command_Q), .operator_Q(operator_Q),
+      .command_Q(command_Q), .operator_Q(operator_Q), .operator_x_Q(operator_x_Q),
       .number_Q(number_Q), .digit_Q(digit_Q),
       .dt_data(dt_data), .dt_empty(dt_empty),
       .op_data(op_data), .op_empty(op_empty),
@@ -171,7 +171,7 @@ module controller(
    
    controller_reg_command rcmd(
       .Reset(Reset), .state(state), .in_cmd(in_cmd),
-      .command_Q(command_Q), .operator_Q(operator_Q),
+      .command_Q(command_Q), .operator_Q(operator_Q), .operator_x_Q(operator_x_Q),
       .number_Q(number_Q), .digit_Q(digit_Q),
       .dt_data(dt_data), .dt_empty(dt_empty),
       .op_data(op_data), .op_empty(op_empty),
@@ -181,7 +181,7 @@ module controller(
    
    controller_reg_operator rop(
       .Reset(Reset), .state(state), .in_cmd(in_cmd),
-      .command_Q(command_Q), .operator_Q(operator_Q),
+      .command_Q(command_Q), .operator_Q(operator_Q), .operator_x_Q(operator_x_Q),
       .number_Q(number_Q), .digit_Q(digit_Q),
       .dt_data(dt_data), .dt_empty(dt_empty),
       .op_data(op_data), .op_empty(op_empty),
@@ -191,7 +191,7 @@ module controller(
    
    controller_reg_operator_x ropx(
       .Reset(Reset), .state(state), .in_cmd(in_cmd),
-      .command_Q(command_Q), .operator_Q(operator_Q),
+      .command_Q(command_Q), .operator_Q(operator_Q), .operator_x_Q(operator_x_Q),
       .number_Q(number_Q), .digit_Q(digit_Q),
       .dt_data(dt_data), .dt_empty(dt_empty),
       .op_data(op_data), .op_empty(op_empty),
@@ -201,7 +201,7 @@ module controller(
    
    controller_reg_digit rdg(
       .Reset(Reset), .state(state), .in_cmd(in_cmd),
-      .command_Q(command_Q), .operator_Q(operator_Q),
+      .command_Q(command_Q), .operator_Q(operator_Q), .operator_x_Q(operator_x_Q),
       .number_Q(number_Q), .digit_Q(digit_Q),
       .dt_data(dt_data), .dt_empty(dt_empty),
       .op_data(op_data), .op_empty(op_empty),
@@ -211,7 +211,7 @@ module controller(
    
    controller_reg_number rnum(
       .Reset(Reset), .state(state), .in_cmd(in_cmd),
-      .command_Q(command_Q), .operator_Q(operator_Q),
+      .command_Q(command_Q), .operator_Q(operator_Q), .operator_x_Q(operator_x_Q),
       .number_Q(number_Q), .digit_Q(digit_Q),
       .dt_data(dt_data), .dt_empty(dt_empty),
       .op_data(op_data), .op_empty(op_empty),
@@ -221,7 +221,7 @@ module controller(
    
    controller_mem_dt mdt(
       .Reset(Reset), .state(state), .in_cmd(in_cmd),
-      .command_Q(command_Q), .operator_Q(operator_Q),
+      .command_Q(command_Q), .operator_Q(operator_Q), .operator_x_Q(operator_x_Q),
       .number_Q(number_Q), .digit_Q(digit_Q),
       .dt_data(dt_data), .dt_empty(dt_empty),
       .op_data(op_data), .op_empty(op_empty),
@@ -231,7 +231,7 @@ module controller(
    
    controller_mem_op mop(
       .Reset(Reset), .state(state), .in_cmd(in_cmd),
-      .command_Q(command_Q), .operator_Q(operator_Q),
+      .command_Q(command_Q), .operator_Q(operator_Q), .operator_x_Q(operator_x_Q),
       .number_Q(number_Q), .digit_Q(digit_Q),
       .dt_data(dt_data), .dt_empty(dt_empty),
       .op_data(op_data), .op_empty(op_empty),
@@ -241,7 +241,7 @@ module controller(
    
    controller_alu calu(
       .Reset(Reset), .state(state), .in_cmd(in_cmd),
-      .command_Q(command_Q), .operator_Q(operator_Q),
+      .command_Q(command_Q), .operator_Q(operator_Q), .operator_x_Q(operator_x_Q),
       .number_Q(number_Q), .digit_Q(digit_Q),
       .dt_data(dt_data), .dt_empty(dt_empty),
       .op_data(op_data), .op_empty(op_empty),
@@ -251,7 +251,7 @@ module controller(
    
    controller_precedence cpre(
       .Reset(Reset), .state(state), .in_cmd(in_cmd),
-      .command_Q(command_Q), .operator_Q(operator_Q),
+      .command_Q(command_Q), .operator_Q(operator_Q), .operator_x_Q(operator_x_Q),
       .number_Q(number_Q), .digit_Q(digit_Q),
       .dt_data(dt_data), .dt_empty(dt_empty),
       .op_data(op_data), .op_empty(op_empty),

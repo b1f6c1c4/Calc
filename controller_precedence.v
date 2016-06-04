@@ -32,13 +32,15 @@ module controller_precedence(
             pr_A <= `CO_AD;
             pr_B <= `CO_AD;
          end
+      else if (state == `CS_COMPARE)
+         begin
+            pr_A <= operator_Q;
+            pr_B <= op_data;
+         end
       else
-         case (state)
-            default:
-               begin
-                  pr_A <= `CO_AD;
-                  pr_B <= `CO_AD;
-               end
-         endcase
+         begin
+            pr_A <= `CO_AD;
+            pr_B <= `CO_AD;
+         end
    
 endmodule
