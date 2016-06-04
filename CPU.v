@@ -51,6 +51,12 @@ module CPU(
       .Clock(Clock), .Reset(Reset),
       .D(operator_D), .EN(operator_EN), .Q(operator_Q));
    
+   wire [`CO_N-1:0] operator_x_D, operator_x_Q;
+   wire operator_x_EN;
+   register #(`CO_N) r_operator_x(
+      .Clock(Clock), .Reset(Reset),
+      .D(operator_x_D), .EN(operator_x_EN), .Q(operator_x_Q));
+   
    wire [`CD_N-1:0] number_D, number_Q;
    wire number_EN;
    register #(`CD_N) r_number(
@@ -72,6 +78,7 @@ module CPU(
       // register
       .command_D(command_D), .command_EN(command_EN), .command_Q(command_Q),
       .operator_D(operator_D), .operator_EN(operator_EN), .operator_Q(operator_Q),
+      .operator_x_D(operator_x_D), .operator_x_EN(operator_x_EN), .operator_x_Q(operator_x_Q),
       .number_D(number_D), .number_EN(number_EN), .number_Q(number_Q),
       .digit_D(digit_D), .digit_EN(digit_EN), .digit_Q(digit_Q),
       // memory

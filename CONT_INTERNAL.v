@@ -23,16 +23,16 @@ input NUM/OP : CS_X_PARSE
 
 
 /* load operator & digit
-op IC_EXLP: CS_PUSH_OP; output ACK
-op IC_EXRP: CS_FLUSH; output ACK
+op CO_LP: CS_PUSH_OP; output ACK
+op CO_RP: CS_FLUSH; output ACK
 op ASMD   : CS_FLUSH; output ACK
 nm        : CS_APP; output ACK
 */
 `define CS_PARSE 5'h02
 
 /* load operator & digit
-op IC_EXLP: CS_PUSH_OP; output ACK
-op IC_EXRP: CS_X_INPUT (invalid)
+op CO_LP: CS_PUSH_OP; output ACK
+op CO_RP: CS_X_INPUT (invalid)
 op AS     : CS_PUSH_SIGN; output ACK
 op MD     : CS_X_INPUT (invalid)
 nm        : CS_CRE; output ACK
@@ -87,15 +87,15 @@ dt not  : CS_X_INPUT; output ACK
 
 
 /* top-op
-op empty && operator==IC_EXRP: CS_ERROR
+op empty && operator==CO_RP: CS_ERROR
 op empty && ABMD   : CS_PUSH_OP
 op not : CS_COMPARE
 */
 `define CS_FLUSH 5'h0c
 
 /* operator_x = op; compare operator op
-lle-rlt || operator==IC_EXRP && op~=IC_EXLP: CS_EVALUATE
-operator==IC_EXRP && op==IC_EXLP: CS_POP_OP
+lle-rlt || operator==CO_RP && op~=CO_LP: CS_EVALUATE
+operator==CO_RP && op==CO_LP: CS_POP_OP
 otherwise: CS_PUSH_OP
 */
 `define CS_COMPARE 5'h0d
@@ -124,10 +124,11 @@ any: CS_FLUSH
 */
 `define CS_EVALUATE_SAVE 5'h11
 
-/* number = 0 - dt
+/* number = 0 P/M dt
 any: CS_EVALUATE_SAVE
 */
 `define CS_CHG_SIGN 5'h12
+
 
 /* push-op operator
 any: CS_X_INPUT

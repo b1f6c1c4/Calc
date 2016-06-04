@@ -12,6 +12,7 @@ module controller_reg_number(
    // register
    input [`IC_N-1:0] command_Q,
    input [`CO_N-1:0] operator_Q,
+   input [`CO_N-1:0] operator_x_Q,
    input [`CD_N-1:0] number_Q,
    input [3:0] digit_Q,
    // memory
@@ -33,16 +34,6 @@ module controller_reg_number(
          end
       else
          case (state)
-            `CS_BACK_D:
-               begin
-                  number_D <= dt_data;
-                  number_EN <= 1'b1;
-               end
-            `CS_BACK_CALC:
-               begin
-                  number_D <= al_C;
-                  number_EN <= 1'b1;
-               end
             default:
                begin
                   number_D <= `CD_0;

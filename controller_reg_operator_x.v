@@ -1,14 +1,12 @@
 `default_nettype none
 `include "INPUT_INTERFACE.v"
-`include "ALU_INTERFACE.v"
 `include "CPU_INTERNAL.v"
 `include "CONT_INTERNAL.v"
-module controller_alu(
+module controller_reg_operator_x(
    input Reset,
    input [`CS_N:0] state,
-   output reg [`CD_N-1:0] al_A,
-   output reg [`CD_N-1:0] al_B,
-   output reg [`AC_N-1:0] al_cmd,
+   output reg [`CO_N-1:0] operator_x_D,
+   output reg operator_x_EN,
    // io
    input [`IC_N-1:0] in_cmd,
    // register
@@ -31,24 +29,13 @@ module controller_alu(
    always @(*)
       if (~Reset)
          begin
-            al_A <= `CD_0;
-            al_B <= `CD_0;
-            al_cmd <= `AC_AD;
+            operator_x_D <= `CO_NO;
+            operator_x_EN <= 1'b0;
          end
       else
-         case (state)
-            `CS_BACK_CALC:
-               begin
-                  al_A <= number_Q;
-                  al_B <= 4'd10;
-                  al_cmd <= `AC_DI;
-               end
-            default:
-               begin
-                  al_A <= `CD_0;
-                  al_B <= `CD_0;
-                  al_cmd <= `AC_AD;
-               end
-         endcase
+         begin
+            operator_x_D <= `CO_NO;
+            operator_x_EN <= 1'b0;
+         end
    
 endmodule

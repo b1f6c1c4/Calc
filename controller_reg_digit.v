@@ -12,6 +12,7 @@ module controller_reg_digit(
    // register
    input [`IC_N-1:0] command_Q,
    input [`CO_N-1:0] operator_Q,
+   input [`CO_N-1:0] operator_x_Q,
    input [`CD_N-1:0] number_Q,
    input [3:0] digit_Q,
    // memory
@@ -28,7 +29,7 @@ module controller_reg_digit(
    always @(*)
       if (~Reset)
          begin
-            digit_D <= 4'd0;
+            digit_D <= 4'hf;
             digit_EN <= 1'b0;
          end
       else if (state == `CS_PARSE)
@@ -85,13 +86,13 @@ module controller_reg_digit(
                end
             default:
                begin
-                  digit_D <= 4'd0;
+                  digit_D <= 4'hf;
                   digit_EN <= 1'b0;
                end
          endcase
       else
          begin
-            digit_D <= 4'd0;
+            digit_D <= 4'hf;
             digit_EN <= 1'b0;
          end
    

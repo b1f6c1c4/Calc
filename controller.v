@@ -20,6 +20,10 @@ module controller(
    output [`CO_N-1:0] operator_D,
    output operator_EN,
    input [`CO_N-1:0] operator_Q,
+   // register operator_x
+   output [`CO_N-1:0] operator_x_D,
+   output operator_x_EN,
+   input [`CO_N-1:0] operator_x_Q,
    // register number
    output [`CD_N-1:0] number_D,
    output number_EN,
@@ -51,7 +55,7 @@ module controller(
    
    always @(posedge Clock, negedge Reset)
       if (~Reset)
-         state <= `CS_INPUT;
+         state <= `CS_X_INPUT;
       else
          case (state)
             `CS_INPUT:
@@ -63,24 +67,102 @@ module controller(
                endcase
             `CS_X_INPUT:
                case (in_cmd)
-                  `IC_CLBK: state <= `CS_X_INPUT; // invalid
-                  `IC_CLCL: state <= `CS_X_INPUT; // invalid
+                  `IC_CLBK: state <= `CS_X_INPUT;
+                  `IC_CLCL: state <= `CS_X_INPUT;
                   `IC_NONE: state <= `CS_X_INPUT;
                   default: state <= `CS_PARSE;
                endcase
+            `CS_PARSE:
+               case (operator_Q)
+                  `CO_LP: state <= `CS_PUSH_OP;
+                  `CO_AD: state <= `CS_FLUSH;
+                  `CO_SB: state <= `CS_FLUSH;
+                  `CO_MU: state <= `CS_FLUSH;
+                  `CO_DI: state <= `CS_FLUSH;
+                  `CO_RP: state <= `CS_FLUSH;
+                  default:
+                     if (digit_Q == 4'hf)
+                        state <= `CS_INPUT; // invalid
+                     else
+                        state <= `CS_APP;
+               endcase
+            `CS_X_PARSE:
+               case (operator_Q)
+                  `CO_LP: state <= `CS_PUSH_OP;
+                  `CO_AD: state <= `CS_PUSH_SIGN;
+                  `CO_SB: state <= `CS_PUSH_SIGN;
+                  `CO_MU: state <= `CS_X_INPUT;
+                  `CO_DI: state <= `CS_X_INPUT;
+                  `CO_RP: state <= `CS_X_INPUT;
+                  default:
+                     if (digit_Q == 4'hf)
+                        state <= `CS_X_INPUT; // invalid
+                     else
+                        state <= `CS_CRE;
+               endcase
             `CS_BACK:
-               if (dt_empty) // invalid
+               if (dt_empty)
                   state <= `CS_INPUT;
                else
-                  state <= `CS_BACK_D;
-            `CS_BACK_D:
-               state <= `CS_BACK_CALC;
+                  state <= `CS_BACK_CALC;
             `CS_BACK_CALC:
                state <= `CS_SAVE;
             `CS_SAVE:
                state <= `CS_INPUT;
+            `CS_CRE:
+               state <= `CS_INPUT;
+            `CS_APP:
+               if (dt_empty) // invalid
+                  state <= `CS_ERROR;
+               else
+                  state <= `CS_APP_CALC_1;
+            `CS_APP_CALC_1:
+               state <= `CS_APP_CALC_2;
+            `CS_APP_CALC_2:
+               state <= `CS_SAVE;
             `CS_CLEAR:
-               state <= `CS_CLEAR;
+               state <= `CS_X_INPUT;
+            `CS_FLUSH:
+               if (op_empty)
+                  if (operator_Q == `IC_EXRP)
+                     state <= `CS_ERROR;
+                  else
+                     state <= `CS_PUSH_OP;
+               else
+                  state <= `CS_COMPARE;
+            `CS_COMPARE:
+               if (pr_res || operator_Q == `CO_RP && op_data != `CO_LP)
+                  state <= `CS_EVALUATE;
+               else if (operator_Q == `CO_RP && op_data == `CO_LP)
+                  state <= `CS_POP_OP;
+               else
+                  state <= `CS_PUSH_OP;
+            `CS_EVALUATE:
+               if (dt_empty)
+                  state <= `CS_ERROR;
+               else if (operator_x_Q == `CO_PS || operator_x_Q == `CO_NS)
+                  state <= `CS_CHG_SIGN;
+               else
+                  state <= `CS_EVALUATE_D;
+            `CS_EVALUATE_D:
+               if (dt_empty)
+                  state <= `CS_ERROR;
+               else
+                  state <= `CS_EVALUATE_DD;
+            `CS_EVALUATE_DD:
+               state <= `CS_EVALUATE_SAVE;
+            `CS_EVALUATE_SAVE:
+               state <= `CS_FLUSH;
+            `CS_CHG_SIGN:
+               state <= `CS_EVALUATE_SAVE;
+            `CS_PUSH_OP:
+               state <= `CS_X_INPUT;
+            `CS_POP_OP:
+               state <= `CS_X_INPUT;
+            `CS_PUSH_SIGN:
+               state <= `CS_X_INPUT;
+            `CS_ERROR:
+               state <= `CS_X_INPUT;
          endcase
    
    // executor
@@ -113,6 +195,16 @@ module controller(
       .al_C(al_C), .pr_res(pr_res),
       // output
       .operator_D(operator_D), .operator_EN(operator_EN));
+   
+   controller_reg_operator_x ropx(
+      .Reset(Reset), .state(state), .in_cmd(in_cmd),
+      .command_Q(command_Q), .operator_Q(operator_Q),
+      .number_Q(number_Q), .digit_Q(digit_Q),
+      .dt_data(dt_data), .dt_empty(dt_empty),
+      .op_data(op_data), .op_empty(op_empty),
+      .al_C(al_C), .pr_res(pr_res),
+      // output
+      .operator_x_D(operator_x_D), .operator_x_EN(operator_x_EN));
    
    controller_reg_digit rdg(
       .Reset(Reset), .state(state), .in_cmd(in_cmd),

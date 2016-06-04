@@ -13,6 +13,7 @@ module controller_mem_dt(
    // register
    input [`IC_N-1:0] command_Q,
    input [`CO_N-1:0] operator_Q,
+   input [`CO_N-1:0] operator_x_Q,
    input [`CD_N-1:0] number_Q,
    input [3:0] digit_Q,
    // memory
