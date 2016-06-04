@@ -11,7 +11,6 @@
 /* wait for input (after digit)
 input IC_CLBK: CS_BACK
 input IC_CLCL: CS_CLEAR
-input IC_CTOK: CS_FLUSH
 input NUM/OP : CS_PARSE
 */
 `define CS_INPUT 5'h00
@@ -25,6 +24,7 @@ input NUM/OP : CS_X_PARSE
 /* load operator & digit
 op CO_LP: CS_PUSH_OP; output ACK
 op CO_RP: CS_FLUSH; output ACK
+op CO_OK: CS_FLUSH; output ACK
 op ASMD   : CS_FLUSH; output ACK
 nm        : CS_APP; output ACK
 */

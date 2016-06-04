@@ -32,7 +32,7 @@ module controller_reg_digit(
             digit_D <= 4'hf;
             digit_EN <= 1'b0;
          end
-      else if (state == `CS_PARSE)
+      else if (state == `CS_PARSE || state == `CS_X_PARSE)
          case (command_Q)
             `IC_NUM0:
                begin

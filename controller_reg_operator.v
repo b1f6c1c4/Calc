@@ -64,6 +64,11 @@ module controller_reg_operator(
                   operator_D <= `CO_RP;
                   operator_EN <= 1'b1;
                end
+            `IC_CTOK:
+               begin
+                  operator_D <= `CO_OK;
+                  operator_EN <= 1'b1;
+               end
             default:
                begin
                   operator_D <= `CO_NO;

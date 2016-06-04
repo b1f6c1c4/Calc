@@ -15,6 +15,7 @@
 `define CO_RP 4'h5
 `define CO_PS 4'h6
 `define CO_NS 4'h7
+`define CO_OK 4'he
 `define CO_NO 4'hf
 
 `endif

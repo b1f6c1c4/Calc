@@ -51,7 +51,7 @@ module controller_io(
          case (state)
             `CS_PARSE:
                case (operator_Q)
-                  `CO_LP, `CO_AD, `CO_SB, `CO_MU, `CO_DI, `CO_RP:
+                  `CO_LP, `CO_AD, `CO_SB, `CO_MU, `CO_DI, `CO_RP, `CO_OK:
                      begin
                         out_data <= {`OD_N{1'b0}};
                         out_cmd <= `OC_ACK;
@@ -70,7 +70,7 @@ module controller_io(
                endcase
             `CS_X_PARSE:
                case (operator_Q)
-                  `CO_LP, `CO_AD, `CO_SB:
+                  `CO_LP, `CO_AD, `CO_SB, `CO_OK:
                      begin
                         out_data <= {`OD_N{1'b0}};
                         out_cmd <= `OC_ACK;

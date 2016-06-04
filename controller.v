@@ -75,11 +75,8 @@ module controller(
             `CS_PARSE:
                case (operator_Q)
                   `CO_LP: state <= `CS_PUSH_OP;
-                  `CO_AD: state <= `CS_FLUSH;
-                  `CO_SB: state <= `CS_FLUSH;
-                  `CO_MU: state <= `CS_FLUSH;
-                  `CO_DI: state <= `CS_FLUSH;
-                  `CO_RP: state <= `CS_FLUSH;
+                  `CO_AD, `CO_SB, `CO_MU, `CO_DI, `CO_RP, `CO_OK:
+                     state <= `CS_FLUSH;
                   default:
                      if (digit_Q == 4'hf)
                         state <= `CS_INPUT; // invalid
@@ -94,6 +91,7 @@ module controller(
                   `CO_MU: state <= `CS_X_INPUT;
                   `CO_DI: state <= `CS_X_INPUT;
                   `CO_RP: state <= `CS_X_INPUT;
+                  `CO_OK: state <= `CS_FLUSH;
                   default:
                      if (digit_Q == 4'hf)
                         state <= `CS_X_INPUT; // invalid
