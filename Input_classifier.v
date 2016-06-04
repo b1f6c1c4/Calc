@@ -41,7 +41,10 @@ module Input_classifier(
                   count <= count - 1;
             S_TD:
                if (~btn)
-                  state <= S_NP;
+                  begin
+                     state <= S_NP;
+                     count <= crit;
+                  end
             default:
                begin
                   state <= S_NP;

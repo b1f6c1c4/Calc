@@ -14,6 +14,6 @@ module Input_diff(
       if (~Reset)
          old <= 1'b0;
       else
-         old <= 1'b1;
+         old <= btn;
    
 endmodule
