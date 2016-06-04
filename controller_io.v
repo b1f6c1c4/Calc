@@ -49,15 +49,68 @@ module controller_io(
          end
       else
          case (state)
+            `CS_PARSE:
+               case (operator_Q)
+                  `CO_LP, `CO_AD, `CO_SB, `CO_MU, `CO_DI, `CO_RP:
+                     begin
+                        out_data <= {`OD_N{1'b0}};
+                        out_cmd <= `OC_ACK;
+                     end
+                  default:
+                     if (digit_Q != 4'hf)
+                        begin
+                           out_data <= {`OD_N{1'b0}};
+                           out_cmd <= `OC_ACK;
+                        end
+                     else
+                        begin
+                           out_data <= {`OD_N{1'b0}};
+                           out_cmd <= `OC_NON;
+                        end
+               endcase
+            `CS_X_PARSE:
+               case (operator_Q)
+                  `CO_LP, `CO_AD, `CO_SB:
+                     begin
+                        out_data <= {`OD_N{1'b0}};
+                        out_cmd <= `OC_ACK;
+                     end
+                  default:
+                     if (digit_Q != 4'hf)
+                        begin
+                           out_data <= {`OD_N{1'b0}};
+                           out_cmd <= `OC_ACK;
+                        end
+                     else
+                        begin
+                           out_data <= {`OD_N{1'b0}};
+                           out_cmd <= `OC_NON;
+                        end
+               endcase
             `CS_BACK_CALC:
                begin
                   out_data <= {`OD_N{1'b0}};
                   out_cmd <= `OC_ACK;
                end
-            `CS_SAVE:
+            `CS_SAVE, `CS_EVALUATE_SAVE:
                begin
                   out_data <= number_Q;
                   out_cmd <= `OC_NUM;
+               end
+            `CS_CRE:
+               begin
+                  out_data <= digit_Q;
+                  out_cmd <= `OC_NUM;
+               end
+            `CS_CLEAR:
+               begin
+                  out_data <= {`OD_N{1'b0}};
+                  out_cmd <= `OC_NUM;
+               end
+            `CS_ERROR:
+               begin
+                  out_data <= {`OD_N{1'b0}};
+                  out_cmd <= `OC_ERR;
                end
             default:
                begin
