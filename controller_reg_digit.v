@@ -6,7 +6,6 @@ module controller_reg_digit(
    input Reset,
    input [`CS_N:0] state,
    output reg [3:0] digit_D,
-   output reg digit_EN,
    // io
    input [`IC_N-1:0] in_cmd,
    // register
@@ -28,72 +27,33 @@ module controller_reg_digit(
    
    always @(*)
       if (~Reset)
-         begin
-            digit_D <= 4'hf;
-            digit_EN <= 1'b0;
-         end
+         digit_D <= digit_Q;
       else if (state == `CS_PARSE || state == `CS_X_PARSE)
          case (command_Q)
             `IC_NUM0:
-               begin
-                  digit_D <= 4'd0;
-                  digit_EN <= 1'b1;
-               end
+               digit_D <= 4'd0;
             `IC_NUM1:
-               begin
-                  digit_D <= 4'd1;
-                  digit_EN <= 1'b1;
-               end
+               digit_D <= 4'd1;
             `IC_NUM2:
-               begin
-                  digit_D <= 4'd2;
-                  digit_EN <= 1'b1;
-               end
+               digit_D <= 4'd2;
             `IC_NUM3:
-               begin
-                  digit_D <= 4'd3;
-                  digit_EN <= 1'b1;
-               end
+               digit_D <= 4'd3;
             `IC_NUM4:
-               begin
-                  digit_D <= 4'd4;
-                  digit_EN <= 1'b1;
-               end
+               digit_D <= 4'd4;
             `IC_NUM5:
-               begin
-                  digit_D <= 4'd5;
-                  digit_EN <= 1'b1;
-               end
+               digit_D <= 4'd5;
             `IC_NUM6:
-               begin
-                  digit_D <= 4'd6;
-                  digit_EN <= 1'b1;
-               end
+               digit_D <= 4'd6;
             `IC_NUM7:
-               begin
-                  digit_D <= 4'd7;
-                  digit_EN <= 1'b1;
-               end
+               digit_D <= 4'd7;
             `IC_NUM8:
-               begin
-                  digit_D <= 4'd8;
-                  digit_EN <= 1'b1;
-               end
+               digit_D <= 4'd8;
             `IC_NUM9:
-               begin
-                  digit_D <= 4'd9;
-                  digit_EN <= 1'b1;
-               end
+               digit_D <= 4'd9;
             default:
-               begin
-                  digit_D <= 4'hf;
-                  digit_EN <= 1'b0;
-               end
+               digit_D <= 4'hf;
          endcase
       else
-         begin
-            digit_D <= 4'hf;
-            digit_EN <= 1'b0;
-         end
+         digit_D <= digit_Q;
    
 endmodule

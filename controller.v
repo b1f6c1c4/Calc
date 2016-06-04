@@ -14,23 +14,18 @@ module controller(
    output [`OC_N-1:0] out_cmd,
    // register command
    output [`IC_N-1:0] command_D,
-   output command_EN,
    input [`IC_N-1:0] command_Q,
    // register operator
    output [`CO_N-1:0] operator_D,
-   output operator_EN,
    input [`CO_N-1:0] operator_Q,
    // register operator_x
    output [`CO_N-1:0] operator_x_D,
-   output operator_x_EN,
    input [`CO_N-1:0] operator_x_Q,
    // register number
    output [`CD_N-1:0] number_D,
-   output number_EN,
    input [`CD_N-1:0] number_Q,
    // register digit
    output [3:0] digit_D,
-   output digit_EN,
    input [3:0] digit_Q,
    // memory dt
    inout [`CD_N-1:0] dt_data,
@@ -182,7 +177,7 @@ module controller(
       .op_data(op_data), .op_empty(op_empty),
       .al_C(al_C), .pr_res(pr_res),
       // output
-      .command_D(command_D), .command_EN(command_EN));
+      .command_D(command_D));
    
    controller_reg_operator rop(
       .Reset(Reset), .state(state), .in_cmd(in_cmd),
@@ -192,7 +187,7 @@ module controller(
       .op_data(op_data), .op_empty(op_empty),
       .al_C(al_C), .pr_res(pr_res),
       // output
-      .operator_D(operator_D), .operator_EN(operator_EN));
+      .operator_D(operator_D));
    
    controller_reg_operator_x ropx(
       .Reset(Reset), .state(state), .in_cmd(in_cmd),
@@ -202,7 +197,7 @@ module controller(
       .op_data(op_data), .op_empty(op_empty),
       .al_C(al_C), .pr_res(pr_res),
       // output
-      .operator_x_D(operator_x_D), .operator_x_EN(operator_x_EN));
+      .operator_x_D(operator_x_D));
    
    controller_reg_digit rdg(
       .Reset(Reset), .state(state), .in_cmd(in_cmd),
@@ -212,7 +207,7 @@ module controller(
       .op_data(op_data), .op_empty(op_empty),
       .al_C(al_C), .pr_res(pr_res),
       // output
-      .digit_D(digit_D), .digit_EN(digit_EN));
+      .digit_D(digit_D));
    
    controller_reg_number rnum(
       .Reset(Reset), .state(state), .in_cmd(in_cmd),
@@ -222,7 +217,7 @@ module controller(
       .op_data(op_data), .op_empty(op_empty),
       .al_C(al_C), .pr_res(pr_res),
       // output
-      .number_D(number_D), .number_EN(number_EN));
+      .number_D(number_D));
    
    controller_mem_dt mdt(
       .Reset(Reset), .state(state), .in_cmd(in_cmd),

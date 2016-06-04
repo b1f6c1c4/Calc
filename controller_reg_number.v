@@ -6,7 +6,6 @@ module controller_reg_number(
    input Reset,
    input [`CS_N:0] state,
    output reg [`CD_N-1:0] number_D,
-   output reg number_EN,
    // io
    input [`IC_N-1:0] in_cmd,
    // register
@@ -28,27 +27,15 @@ module controller_reg_number(
    
    always @(*)
       if (~Reset)
-         begin
-            number_D <= `CD_0;
-            number_EN <= 1'b0;
-         end
+         number_D <= `CD_0;
       else
          case (state)
-            `CS_BACK_CALC, CS_APP_CALC_1, CS_APP_CALC_2, CS_EVALUATE_DD, CS_EVALUATE_SAVE:
-               begin
-                  number_D <= al_C;
-                  number_EN <= 1'b1;
-               end
+            `CS_BACK_CALC, `CS_APP_CALC_1, `CS_APP_CALC_2, `CS_EVALUATE_DD, `CS_EVALUATE_SAVE:
+               number_D <= al_C;
             `CS_EVALUATE_D:
-               begin
-                  number_D <= dt_data;
-                  number_EN <= 1'b1;
-               end
+               number_D <= dt_data;
             default:
-               begin
-                  number_D <= `CD_0;
-                  number_EN <= 1'b0;
-               end
+               number_D <= `CD_0;
          endcase
    
 endmodule

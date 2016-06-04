@@ -6,7 +6,6 @@ module controller_reg_command(
    input Reset,
    input [`CS_N:0] state,
    output reg [`IC_N-1:0] command_D,
-   output reg command_EN,
    // io
    input [`IC_N-1:0] in_cmd,
    // register
@@ -28,22 +27,13 @@ module controller_reg_command(
    
    always @(*)
       if (~Reset)
-         begin
-            command_D <= `CO_AD;
-            command_EN <= 1'b0;
-         end
+         command_D <= command_Q;
       else
          case (state)
             `CS_INPUT, `CS_X_INPUT:
-               begin
-                  command_D <= in_cmd;
-                  command_EN <= 1'b1;
-               end
+               command_D <= in_cmd;
             default:
-               begin
-                  command_D <= `CO_AD;
-                  command_EN <= 1'b0;
-               end
+               command_D <= command_Q;
          endcase
    
 endmodule

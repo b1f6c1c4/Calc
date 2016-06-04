@@ -40,34 +40,29 @@ module CPU(
    
    // register
    wire [`IC_N-1:0] command_D, command_Q;
-   wire command_EN;
    register #(`IC_N) r_command(
       .Clock(Clock), .Reset(Reset),
-      .D(command_D), .EN(command_EN), .Q(command_Q));
+      .D(command_D), .Q(command_Q));
    
    wire [`CO_N-1:0] operator_D, operator_Q;
-   wire operator_EN;
    register #(`CO_N) r_operator(
       .Clock(Clock), .Reset(Reset),
-      .D(operator_D), .EN(operator_EN), .Q(operator_Q));
+      .D(operator_D), .Q(operator_Q));
    
    wire [`CO_N-1:0] operator_x_D, operator_x_Q;
-   wire operator_x_EN;
    register #(`CO_N) r_operator_x(
       .Clock(Clock), .Reset(Reset),
-      .D(operator_x_D), .EN(operator_x_EN), .Q(operator_x_Q));
+      .D(operator_x_D), .Q(operator_x_Q));
    
    wire [`CD_N-1:0] number_D, number_Q;
-   wire number_EN;
    register #(`CD_N) r_number(
       .Clock(Clock), .Reset(Reset),
-      .D(number_D), .EN(number_EN), .Q(number_Q));
+      .D(number_D), .Q(number_Q));
    
    wire [3:0] digit_D, digit_Q;
-   wire digit_EN;
    register #(4) r_digit(
       .Clock(Clock), .Reset(Reset),
-      .D(digit_D), .EN(digit_EN), .Q(digit_Q));
+      .D(digit_D), .Q(digit_Q));
    
    // controller
    controller con(
@@ -76,11 +71,11 @@ module CPU(
       .in_ack(in_ack), .in_cmd(in_cmd),
       .out_data(out_data), .out_cmd(out_cmd),
       // register
-      .command_D(command_D), .command_EN(command_EN), .command_Q(command_Q),
-      .operator_D(operator_D), .operator_EN(operator_EN), .operator_Q(operator_Q),
-      .operator_x_D(operator_x_D), .operator_x_EN(operator_x_EN), .operator_x_Q(operator_x_Q),
-      .number_D(number_D), .number_EN(number_EN), .number_Q(number_Q),
-      .digit_D(digit_D), .digit_EN(digit_EN), .digit_Q(digit_Q),
+      .command_D(command_D), .command_Q(command_Q),
+      .operator_D(operator_D), .operator_Q(operator_Q),
+      .operator_x_D(operator_x_D), .operator_x_Q(operator_x_Q),
+      .number_D(number_D), .number_Q(number_Q),
+      .digit_D(digit_D), .digit_Q(digit_Q),
       // memory
       .dt_data(dt_data), .dt_empty(dt_empty), .dt_cmd(dt_cmd),
       .op_data(op_data), .op_empty(op_empty), .op_cmd(op_cmd),
@@ -89,5 +84,5 @@ module CPU(
       // precedence rom
       .pr_A(pr_A), .pr_B(pr_B), .pr_res(pr_res)
       );
-
+   
 endmodule

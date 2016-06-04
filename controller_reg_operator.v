@@ -6,7 +6,6 @@ module controller_reg_operator(
    input Reset,
    input [`CS_N:0] state,
    output reg [`CO_N-1:0] operator_D,
-   output reg operator_EN,
    // io
    input [`IC_N-1:0] in_cmd,
    // register
@@ -28,57 +27,27 @@ module controller_reg_operator(
    
    always @(*)
       if (~Reset)
-         begin
-            operator_D <= `CO_NO;
-            operator_EN <= 1'b0;
-         end
+         operator_D <= operator_Q;
       else if (state == `CS_PARSE)
          case (command_Q)
             `IC_OPAD:
-               begin
-                  operator_D <= `CO_AD;
-                  operator_EN <= 1'b1;
-               end
+               operator_D <= `CO_AD;
             `IC_OPSB:
-               begin
-                  operator_D <= `CO_SB;
-                  operator_EN <= 1'b1;
-               end
+               operator_D <= `CO_SB;
             `IC_OPMU:
-               begin
-                  operator_D <= `CO_MU;
-                  operator_EN <= 1'b1;
-               end
+               operator_D <= `CO_MU;
             `IC_OPDI:
-               begin
-                  operator_D <= `CO_DI;
-                  operator_EN <= 1'b1;
-               end
+               operator_D <= `CO_DI;
             `IC_EXLP:
-               begin
-                  operator_D <= `CO_LP;
-                  operator_EN <= 1'b1;
-               end
+               operator_D <= `CO_LP;
             `IC_EXRP:
-               begin
-                  operator_D <= `CO_RP;
-                  operator_EN <= 1'b1;
-               end
+               operator_D <= `CO_RP;
             `IC_CTOK:
-               begin
-                  operator_D <= `CO_OK;
-                  operator_EN <= 1'b1;
-               end
+               operator_D <= `CO_OK;
             default:
-               begin
-                  operator_D <= `CO_NO;
-                  operator_EN <= 1'b0;
-               end
+               operator_D <= `CO_NO;
          endcase
       else
-         begin
-            operator_D <= `CO_NO;
-            operator_EN <= 1'b0;
-         end
+         operator_D <= operator_Q;
    
 endmodule

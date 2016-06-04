@@ -6,7 +6,6 @@ module controller_reg_operator_x(
    input Reset,
    input [`CS_N:0] state,
    output reg [`CO_N-1:0] operator_x_D,
-   output reg operator_x_EN,
    // io
    input [`IC_N-1:0] in_cmd,
    // register
@@ -28,14 +27,8 @@ module controller_reg_operator_x(
    
    always @(*)
       if (~Reset)
-         begin
-            operator_x_D <= `CO_NO;
-            operator_x_EN <= 1'b0;
-         end
+         operator_x_D <= `CO_NO;
       else
-         begin
-            operator_x_D <= `CO_NO;
-            operator_x_EN <= 1'b0;
-         end
+         operator_x_D <= `CO_NO;
    
 endmodule
