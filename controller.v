@@ -65,7 +65,7 @@ module controller(
                   `IC_CLBK: state <= `CS_X_INPUT;
                   `IC_CLCL: state <= `CS_X_INPUT;
                   `IC_NONE: state <= `CS_X_INPUT;
-                  default: state <= `CS_PARSE;
+                  default: state <= `CS_X_PARSE;
                endcase
             `CS_PARSE:
                case (operator_Q)
@@ -116,13 +116,14 @@ module controller(
             `CS_CLEAR:
                state <= `CS_X_INPUT;
             `CS_FLUSH:
-               if (op_empty)
-                  if (operator_Q == `IC_EXRP)
-                     state <= `CS_ERROR;
-                  else
-                     state <= `CS_PUSH_OP;
-               else
+               if (~op_empty)
                   state <= `CS_COMPARE;
+               else if (operator_Q == `CO_RP)
+                  state <= `CS_ERROR;
+               else if (operator_Q == `CO_OK)
+                  state <= `CS_INPUT;
+               else
+                  state <= `CS_PUSH_OP;
             `CS_COMPARE:
                if (pr_res || operator_Q == `CO_RP && op_data != `CO_LP)
                   state <= `CS_EVALUATE;

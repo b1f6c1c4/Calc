@@ -28,8 +28,8 @@ module controller_reg_digit(
    always @(*)
       if (~Reset)
          digit_D <= digit_Q;
-      else if (state == `CS_PARSE || state == `CS_X_PARSE)
-         case (command_Q)
+      else if (state == `CS_INPUT || state == `CS_X_INPUT)
+         case (in_cmd)
             `IC_NUM0:
                digit_D <= 4'd0;
             `IC_NUM1:
