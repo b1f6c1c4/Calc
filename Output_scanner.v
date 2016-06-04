@@ -49,7 +49,7 @@ module Output_scanner(
    always @(posedge Clock, negedge Reset)
       if (~Reset)
          state <= 2'd0;
-      else
+      else if (dv)
          state <= state + 2'd1;
    
 endmodule

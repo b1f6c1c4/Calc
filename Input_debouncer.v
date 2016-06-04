@@ -7,8 +7,8 @@ module Input_debouncer(
    input btn,
    output reg Q
    );
-   parameter div = 25000;
-   localparam dv = |div ? div - 1 : 0;
+   parameter div = 16'd25000;
+   localparam dv = |div ? div - 16'd1 : 16'd0;
    
    reg [15:0] count;
    

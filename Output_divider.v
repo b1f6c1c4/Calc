@@ -18,15 +18,15 @@ module Output_divider(
    
    reg [`OD_N-1:0] num;
    wire [`OD_N-1:0] quo, rem;
-   assign quo = num / 10;
-   assign rem = num % 10;
+   assign quo = num / 4'd10;
+   assign rem = num % 4'd10;
    
    reg [2:0] state;
    
    always @(posedge Clock, negedge Reset)
       if (~Reset)
          begin
-            num <= 0;
+            num <= {`OD_N{1'b0}};
             bcd0 <= 4'b0;
             bcd1 <= 4'b0;
             bcd2 <= 4'b0;

@@ -15,7 +15,7 @@ module Output(
    
    // internal nets
    reg data_sign;
-   wire [31:0] abs_data = data[`OD_N-1] ? ~data + 1 : data;
+   wire [`OD_N-1:0] abs_data = data[`OD_N-1] ? ~data + 1 : data;
    reg is_err;
    wire out_of_range;
    
@@ -50,6 +50,11 @@ module Output(
                begin
                   trig <= 1'b1;
                   length <= err_len;
+               end
+            else
+               begin
+                  trig <= 1'b0;
+                  length <= 0;
                end
          default:
             begin
@@ -94,7 +99,7 @@ module Output(
       if (is_err)
          oct2 <= 8'b01100001;
       else if (|bcd0 || |bcd1 || |bcd2)
-         oct2 <= oct1t;
+         oct2 <= oct2t;
       else
          oct2 <= 8'b11111111;
    
@@ -102,7 +107,7 @@ module Output(
       if (is_err)
          oct3 <= 8'b01100001;
       else if (|bcd0 || |bcd1 || |bcd2 || |bcd3)
-         oct3 <= oct1t;
+         oct3 <= oct3t;
       else
          oct3 <= 8'b11111111;
    
