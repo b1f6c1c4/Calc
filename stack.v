@@ -39,10 +39,25 @@ module stack(
                ram_addr <= 6'bx;
          endcase
    
+   always @(*)
+      if (~Reset)
+         WE = 1'b0;
+      else
+         case (cmd)
+            SC_PUS:
+               WE = 1'b1;
+            SC_ALT:
+               if (|ptr)
+                  WE = 1'b1;
+               else
+                  WE = 1'b0;
+            default:
+               WE = 1'b0;
+         endcase
+   
    always @(posedge Clock, negedge Reset)
       if (~Reset)
          begin
-            WE = 1'b0;
             ptr <= 6'b0;
             out_ena <= 1'b0;
          end
@@ -50,40 +65,30 @@ module stack(
          case (cmd)
             SC_PUS:
                begin
-                  WE = 1'b0;
                   ptr <= ptr + 6'b1;
                   out_ena <= 1'b0;
                end
             SC_POP:
                if (|ptr)
                   begin
-                     WE = 1'b0;
                      ptr <= ptr - 6'b1;
                      out_ena <= 1'b1;
                   end
             SC_TOP:
                if (|ptr)
                   begin
-                     WE = 1'b0;
                      out_ena <= 1'b1;
                   end
             SC_ALT:
                if (|ptr)
-                  begin
-                     WE = 1'b1;
-                     out_ena <= 1'b0;
-                  end
+                  out_ena <= 1'b0;
             SC_CLR:
                begin
-                  WE = 1'b0;
                   ptr <= 6'b0;
                   out_ena <= 1'b0;
                end
             default:
-               begin
-                  WE = 1'b0;
-                  out_ena <= 1'b0;
-               end
+               out_ena <= 1'b0;
          endcase
    
 endmodule
