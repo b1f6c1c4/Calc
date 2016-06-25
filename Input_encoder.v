@@ -1,11 +1,11 @@
 `default_nettype none
-`include "INPUT_INTERFACE.v"
 module Input_encoder(
 	input Clock,
 	input Reset,
    input [15:0] key,
-   output reg [`IC_N-1:0] cmd
+   output reg [IC_N-1:0] cmd
    );
+`include "INPUT_INTERFACE.v"
    
    wire NUM1, NUM2, NUM3, NUM4, NUM5, NUM6, NUM7, NUM8, NUM9, NUM0;
    wire OPAD, OPSB, OPMU, OPDI, EXLP, EXRP, CLBK, CLCL, CTOK;
@@ -45,26 +45,26 @@ module Input_encoder(
    
    always @(*)
       case (1'b1)
-         CLCL: cmd <= `IC_CLCL;
-         CLBK: cmd <= `IC_CLBK;
-         CTOK: cmd <= `IC_CTOK;
-         OPMU: cmd <= `IC_OPMU;
-         OPDI: cmd <= `IC_OPDI;
-         OPAD: cmd <= `IC_OPAD;
-         OPSB: cmd <= `IC_OPSB;
-         EXLP: cmd <= `IC_EXLP;
-         EXRP: cmd <= `IC_EXRP;
-         NUM9: cmd <= `IC_NUM9;
-         NUM8: cmd <= `IC_NUM8;
-         NUM7: cmd <= `IC_NUM7;
-         NUM6: cmd <= `IC_NUM6;
-         NUM5: cmd <= `IC_NUM5;
-         NUM4: cmd <= `IC_NUM4;
-         NUM3: cmd <= `IC_NUM3;
-         NUM2: cmd <= `IC_NUM2;
-         NUM1: cmd <= `IC_NUM1;
-         NUM0: cmd <= `IC_NUM0;
-         default: cmd <= `IC_NONE;
+         CLCL: cmd <= IC_CLCL;
+         CLBK: cmd <= IC_CLBK;
+         CTOK: cmd <= IC_CTOK;
+         OPMU: cmd <= IC_OPMU;
+         OPDI: cmd <= IC_OPDI;
+         OPAD: cmd <= IC_OPAD;
+         OPSB: cmd <= IC_OPSB;
+         EXLP: cmd <= IC_EXLP;
+         EXRP: cmd <= IC_EXRP;
+         NUM9: cmd <= IC_NUM9;
+         NUM8: cmd <= IC_NUM8;
+         NUM7: cmd <= IC_NUM7;
+         NUM6: cmd <= IC_NUM6;
+         NUM5: cmd <= IC_NUM5;
+         NUM4: cmd <= IC_NUM4;
+         NUM3: cmd <= IC_NUM3;
+         NUM2: cmd <= IC_NUM2;
+         NUM1: cmd <= IC_NUM1;
+         NUM0: cmd <= IC_NUM0;
+         default: cmd <= IC_NONE;
       endcase
    
 endmodule

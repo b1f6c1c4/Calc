@@ -1,6 +1,4 @@
 `default_nettype none
-`include "INPUT_INTERFACE.v"
-`include "OUTPUT_INTERFACE.v"
 module Calc(
 	input CLK,
 	input RST,
@@ -11,6 +9,8 @@ module Calc(
 	output [7:0] LD,
 	output Buzz
    );
+`include "INPUT_INTERFACE.v"
+`include "OUTPUT_INTERFACE.v"
    
    // fundamental modules
    wire Clock, Reset;
@@ -19,9 +19,9 @@ module Calc(
    
    // links
    wire in_ack;
-   wire [`IC_N-1:0] in_cmd;
-   wire [`OD_N-1:0] out_data;
-   wire [`OC_N-1:0] out_cmd;
+   wire [IC_N-1:0] in_cmd;
+   wire [OD_N-1:0] out_data;
+   wire [OC_N-1:0] out_cmd;
    
    // main modules
    Input in(.Clock(Clock), .Reset(Reset),

@@ -1,6 +1,6 @@
 `default_nettype none
 `include "INPUT_INTERFACE.v"
-`timescale 10ns/1ps
+timescale 10ns/1ps
 module Input_tb();
    
 	reg Clock;
@@ -8,7 +8,7 @@ module Input_tb();
 	wire [3:0] H;
 	reg [3:0] V;
    reg ack;
-   wire [`IC_N-1:0] cmd;
+   wire [IC_N-1:0] cmd;
    
    Input mdl(.Clock(Clock), .Reset(Reset),
              .H(H), .V(V),

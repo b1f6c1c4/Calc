@@ -1,13 +1,13 @@
 `default_nettype none
-`include "STACK_INTERFACE.v"
 module stack(
    input Clock,
    input Reset,
    inout [N-1:0] data,
    output is_empty,
-   input [`SC_N-1:0] cmd
+   input [SC_N-1:0] cmd
    );
    parameter N = 16;
+`include "STACK_INTERFACE.v"
    
    reg WE;
    reg [5:0] ram_addr;
@@ -25,15 +25,15 @@ module stack(
          ram_addr <= 6'b0;
       else
          case (cmd)
-            `SC_PUS:
+            SC_PUS:
                ram_addr <= ptr;
-            `SC_POP:
+            SC_POP:
                ram_addr <= ptr - 6'b1;
-            `SC_TOP:
+            SC_TOP:
                ram_addr <= ptr - 6'b1;
-            `SC_ALT:
+            SC_ALT:
                ram_addr <= ptr - 6'b1;
-            `SC_CLR:
+            SC_CLR:
                ram_addr <= ptr;
             default:
                ram_addr <= 6'bx;
@@ -48,32 +48,32 @@ module stack(
          end
       else
          case (cmd)
-            `SC_PUS:
+            SC_PUS:
                begin
                   WE = 1'b0;
                   ptr <= ptr + 6'b1;
                   out_ena <= 1'b0;
                end
-            `SC_POP:
+            SC_POP:
                if (|ptr)
                   begin
                      WE = 1'b0;
                      ptr <= ptr - 6'b1;
                      out_ena <= 1'b1;
                   end
-            `SC_TOP:
+            SC_TOP:
                if (|ptr)
                   begin
                      WE = 1'b0;
                      out_ena <= 1'b1;
                   end
-            `SC_ALT:
+            SC_ALT:
                if (|ptr)
                   begin
                      WE = 1'b1;
                      out_ena <= 1'b0;
                   end
-            `SC_CLR:
+            SC_CLR:
                begin
                   WE = 1'b0;
                   ptr <= 6'b0;

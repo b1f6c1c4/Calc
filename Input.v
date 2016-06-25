@@ -1,16 +1,16 @@
 `default_nettype none
-`include "INPUT_INTERFACE.v"
 module Input(
 	input Clock,
 	input Reset,
 	input [3:0] H,
 	output [3:0] V,
    input ack,
-   output [`IC_N-1:0] cmd
+   output [IC_N-1:0] cmd
    );
+`include "INPUT_INTERFACE.v"
    
    wire [15:0] key;
-   wire [`IC_N-1:0] cmd_t;
+   wire [IC_N-1:0] cmd_t;
    
    Input_keyboard keybd(.Clock(Clock), .Reset(Reset),
                         .H(H), .V(V), .res(key));

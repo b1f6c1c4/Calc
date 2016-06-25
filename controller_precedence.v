@@ -1,8 +1,8 @@
 always @(*)
    if (~Reset)
       begin
-         pr_A <= `CO_AD;
-         pr_B <= `CO_AD;
+         pr_A <= CO_AD;
+         pr_B <= CO_AD;
       end
    else if (state == CS_COMPARE)
       begin
@@ -11,6 +11,6 @@ always @(*)
       end
    else
       begin
-         pr_A <= `CO_AD;
-         pr_B <= `CO_AD;
+         pr_A <= CO_AD;
+         pr_B <= CO_AD;
       end

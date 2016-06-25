@@ -1,10 +1,9 @@
 `default_nettype none
-`include "OUTPUT_INTERFACE.v"
 module Output(
 	input Clock,
 	input Reset,
-   input [`OD_N-1:0] data,
-   input [`OC_N-1:0] cmd,
+   input [OD_N-1:0] data,
+   input [OC_N-1:0] cmd,
 	output [0:3] SD,
 	output [0:7] SEG,
 	output [7:0] LD,
@@ -12,10 +11,11 @@ module Output(
    );
    parameter ack_len = 250000;
    parameter err_len = 25000000;
+`include "OUTPUT_INTERFACE.v"
    
    // internal nets
    reg data_sign;
-   wire [`OD_N-1:0] abs_data = data[`OD_N-1] ? ~data + 1 : data;
+   wire [OD_N-1:0] abs_data = data[OD_N-1] ? ~data + 1 : data;
    reg is_err;
    wire out_of_range;
    
@@ -35,17 +35,17 @@ module Output(
    
    always @(*)
       case (cmd)
-         `OC_ACK:
+         OC_ACK:
             begin
                trig <= 1'b1;
                length <= ack_len;
             end
-         `OC_ERR:
+         OC_ERR:
             begin
                trig <= 1'b1;
                length <= err_len;
             end
-         `OC_NUM:
+         OC_NUM:
             if ($signed(data) > $signed(9999) || $signed(data) < -$signed(1999))
                begin
                   trig <= 1'b1;
@@ -66,17 +66,17 @@ module Output(
    always @(posedge Clock, negedge Reset)
       if (~Reset)
          data_sign <= 1'b0;
-      else if (cmd == `OC_NUM)
-         data_sign <= data[`OD_N-1];
+      else if (cmd == OC_NUM)
+         data_sign <= data[OD_N-1];
    
    always @(posedge Clock, negedge Reset)
       if (~Reset)
          is_err <= 1'b0;
       else
          case (cmd)
-            `OC_ACK: is_err <= 1'b0;
-            `OC_ERR: is_err <= 1'b1;
-            `OC_NUM: is_err <= out_of_range;
+            OC_ACK: is_err <= 1'b0;
+            OC_ERR: is_err <= 1'b1;
+            OC_NUM: is_err <= out_of_range;
          endcase
    
    always @(*)
@@ -116,7 +116,7 @@ module Output(
    Output_num_decoder dec3(.bcd(bcd0), .dot(1'b0), .oct(oct3t));
    
    Output_divider divi(.Clock(Clock), .Reset(Reset),
-                       .load(cmd == `OC_NUM), .data(abs_data),
+                       .load(cmd == OC_NUM), .data(abs_data),
                        .bcd0(bcd0), .bcd1(bcd1), .bcd2(bcd2), .bcd3(bcd3));
    
    Output_scanner scan(.Clock(Clock), .Reset(Reset),
