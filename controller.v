@@ -9,43 +9,54 @@ module controller(
    input Reset,
    output reg [`CS_N:0] state,
    // io
-   output in_ack,
+   output reg in_ack,
    input [`IC_N-1:0] in_cmd,
-   output [`OD_N-1:0] out_data,
-   output [`OC_N-1:0] out_cmd,
+   output reg [`OD_N-1:0] out_data,
+   output reg [`OC_N-1:0] out_cmd,
    // register command
-   output [`IC_N-1:0] command_D,
+   output reg [`IC_N-1:0] command_D,
    input [`IC_N-1:0] command_Q,
    // register operator
-   output [`CO_N-1:0] operator_D,
+   output reg [`CO_N-1:0] operator_D,
    input [`CO_N-1:0] operator_Q,
    // register operator_x
-   output [`CO_N-1:0] operator_x_D,
+   output reg [`CO_N-1:0] operator_x_D,
    input [`CO_N-1:0] operator_x_Q,
    // register number
-   output [`CD_N-1:0] number_D,
+   output reg [`CD_N-1:0] number_D,
    input [`CD_N-1:0] number_Q,
    // register digit
-   output [3:0] digit_D,
+   output reg [3:0] digit_D,
    input [3:0] digit_Q,
    // memory dt
    inout [`CD_N-1:0] dt_data,
    input dt_empty,
-   output [`SC_N-1:0] dt_cmd,
+   output reg [`SC_N-1:0] dt_cmd,
    // memory op
    inout [`CO_N-1:0] op_data,
    input op_empty,
-   output [`SC_N-1:0] op_cmd,
+   output reg [`SC_N-1:0] op_cmd,
    // alu
-   output [`CD_N-1:0] al_A,
-   output [`CD_N-1:0] al_B,
+   output reg [`CD_N-1:0] al_A,
+   output reg [`CD_N-1:0] al_B,
    input [`CD_N-1:0] al_C,
-   output [`AC_N-1:0] al_cmd,
+   output reg [`AC_N-1:0] al_cmd,
    // precedence rom
-   output [`CO_N-1:0] pr_A,
-   output [`CO_N-1:0] pr_B,
+   output reg [`CO_N-1:0] pr_A,
+   output reg [`CO_N-1:0] pr_B,
    input pr_res
    );
+   
+`include "controller_io.v"
+`include "controller_reg_command.v"
+`include "controller_reg_operator.v"
+`include "controller_reg_operator_x.v"
+`include "controller_reg_number.v"
+`include "controller_reg_digit.v"
+`include "controller_mem_dt.v"
+`include "controller_mem_op.v"
+`include "controller_alu.v"
+`include "controller_precedence.v"
    
    always @(posedge Clock, negedge Reset)
       if (~Reset)
@@ -157,106 +168,5 @@ module controller(
             `CS_ERROR:
                state <= `CS_X_INPUT;
          endcase
-   
-   // executor
-   controller_io io(
-      .Reset(Reset), .state(state), .in_cmd(in_cmd),
-      .command_Q(command_Q), .operator_Q(operator_Q), .operator_x_Q(operator_x_Q),
-      .number_Q(number_Q), .digit_Q(digit_Q),
-      .dt_data(dt_data), .dt_empty(dt_empty),
-      .op_data(op_data), .op_empty(op_empty),
-      .al_C(al_C), .pr_res(pr_res),
-      // output
-      .in_ack(in_ack), .out_data(out_data), .out_cmd(out_cmd));
-   
-   controller_reg_command rcmd(
-      .Reset(Reset), .state(state), .in_cmd(in_cmd),
-      .command_Q(command_Q), .operator_Q(operator_Q), .operator_x_Q(operator_x_Q),
-      .number_Q(number_Q), .digit_Q(digit_Q),
-      .dt_data(dt_data), .dt_empty(dt_empty),
-      .op_data(op_data), .op_empty(op_empty),
-      .al_C(al_C), .pr_res(pr_res),
-      // output
-      .command_D(command_D));
-   
-   controller_reg_operator rop(
-      .Reset(Reset), .state(state), .in_cmd(in_cmd),
-      .command_Q(command_Q), .operator_Q(operator_Q), .operator_x_Q(operator_x_Q),
-      .number_Q(number_Q), .digit_Q(digit_Q),
-      .dt_data(dt_data), .dt_empty(dt_empty),
-      .op_data(op_data), .op_empty(op_empty),
-      .al_C(al_C), .pr_res(pr_res),
-      // output
-      .operator_D(operator_D));
-   
-   controller_reg_operator_x ropx(
-      .Reset(Reset), .state(state), .in_cmd(in_cmd),
-      .command_Q(command_Q), .operator_Q(operator_Q), .operator_x_Q(operator_x_Q),
-      .number_Q(number_Q), .digit_Q(digit_Q),
-      .dt_data(dt_data), .dt_empty(dt_empty),
-      .op_data(op_data), .op_empty(op_empty),
-      .al_C(al_C), .pr_res(pr_res),
-      // output
-      .operator_x_D(operator_x_D));
-   
-   controller_reg_digit rdg(
-      .Reset(Reset), .state(state), .in_cmd(in_cmd),
-      .command_Q(command_Q), .operator_Q(operator_Q), .operator_x_Q(operator_x_Q),
-      .number_Q(number_Q), .digit_Q(digit_Q),
-      .dt_data(dt_data), .dt_empty(dt_empty),
-      .op_data(op_data), .op_empty(op_empty),
-      .al_C(al_C), .pr_res(pr_res),
-      // output
-      .digit_D(digit_D));
-   
-   controller_reg_number rnum(
-      .Reset(Reset), .state(state), .in_cmd(in_cmd),
-      .command_Q(command_Q), .operator_Q(operator_Q), .operator_x_Q(operator_x_Q),
-      .number_Q(number_Q), .digit_Q(digit_Q),
-      .dt_data(dt_data), .dt_empty(dt_empty),
-      .op_data(op_data), .op_empty(op_empty),
-      .al_C(al_C), .pr_res(pr_res),
-      // output
-      .number_D(number_D));
-   
-   controller_mem_dt mdt(
-      .Reset(Reset), .state(state), .in_cmd(in_cmd),
-      .command_Q(command_Q), .operator_Q(operator_Q), .operator_x_Q(operator_x_Q),
-      .number_Q(number_Q), .digit_Q(digit_Q),
-      .dt_data(dt_data), .dt_empty(dt_empty),
-      .op_data(op_data), .op_empty(op_empty),
-      .al_C(al_C), .pr_res(pr_res),
-      // output
-      .dt_cmd(dt_cmd));
-   
-   controller_mem_op mop(
-      .Reset(Reset), .state(state), .in_cmd(in_cmd),
-      .command_Q(command_Q), .operator_Q(operator_Q), .operator_x_Q(operator_x_Q),
-      .number_Q(number_Q), .digit_Q(digit_Q),
-      .dt_data(dt_data), .dt_empty(dt_empty),
-      .op_data(op_data), .op_empty(op_empty),
-      .al_C(al_C), .pr_res(pr_res),
-      // output
-      .op_cmd(op_cmd));
-   
-   controller_alu calu(
-      .Reset(Reset), .state(state), .in_cmd(in_cmd),
-      .command_Q(command_Q), .operator_Q(operator_Q), .operator_x_Q(operator_x_Q),
-      .number_Q(number_Q), .digit_Q(digit_Q),
-      .dt_data(dt_data), .dt_empty(dt_empty),
-      .op_data(op_data), .op_empty(op_empty),
-      .al_C(al_C), .pr_res(pr_res),
-      // output
-      .al_A(al_A), .al_B(al_B), .al_cmd(al_cmd));
-   
-   controller_precedence cpre(
-      .Reset(Reset), .state(state), .in_cmd(in_cmd),
-      .command_Q(command_Q), .operator_Q(operator_Q), .operator_x_Q(operator_x_Q),
-      .number_Q(number_Q), .digit_Q(digit_Q),
-      .dt_data(dt_data), .dt_empty(dt_empty),
-      .op_data(op_data), .op_empty(op_empty),
-      .al_C(al_C), .pr_res(pr_res),
-      // output
-      .pr_A(pr_A), .pr_B(pr_B));
    
 endmodule
