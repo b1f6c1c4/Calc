@@ -3,11 +3,9 @@
 `include "OUTPUT_INTERFACE.v"
 `include "STACK_INTERFACE.v"
 `include "CPU_INTERNAL.v"
-`include "CONT_INTERNAL.v"
 module controller(
    input Clock,
    input Reset,
-   output reg [`CS_N:0] state,
    // io
    output reg in_ack,
    input [`IC_N-1:0] in_cmd,
@@ -46,6 +44,8 @@ module controller(
    output reg [`CO_N-1:0] pr_B,
    input pr_res
    );
+`include "CONT_INTERNAL.v"
+   reg [CS_N:0] state;
    
 `include "controller_io.v"
 `include "controller_reg_command.v"
@@ -60,113 +60,113 @@ module controller(
    
    always @(posedge Clock, negedge Reset)
       if (~Reset)
-         state <= `CS_X_INPUT;
+         state <= CS_X_INPUT;
       else
          case (state)
-            `CS_INPUT:
+            CS_INPUT:
                case (in_cmd)
-                  `IC_CLBK: state <= `CS_BACK;
-                  `IC_CLCL: state <= `CS_CLEAR;
-                  `IC_NONE: state <= `CS_INPUT;
-                  default: state <= `CS_PARSE;
+                  `IC_CLBK: state <= CS_BACK;
+                  `IC_CLCL: state <= CS_CLEAR;
+                  `IC_NONE: state <= CS_INPUT;
+                  default: state <= CS_PARSE;
                endcase
-            `CS_X_INPUT:
+            CS_X_INPUT:
                case (in_cmd)
-                  `IC_CLBK: state <= `CS_X_INPUT;
-                  `IC_CLCL: state <= `CS_X_INPUT;
-                  `IC_NONE: state <= `CS_X_INPUT;
-                  default: state <= `CS_X_PARSE;
+                  `IC_CLBK: state <= CS_X_INPUT;
+                  `IC_CLCL: state <= CS_X_INPUT;
+                  `IC_NONE: state <= CS_X_INPUT;
+                  default: state <= CS_X_PARSE;
                endcase
-            `CS_PARSE:
+            CS_PARSE:
                case (operator_Q)
-                  `CO_LP: state <= `CS_PUSH_OP;
+                  `CO_LP: state <= CS_PUSH_OP;
                   `CO_AD, `CO_SB, `CO_MU, `CO_DI, `CO_RP, `CO_OK:
-                     state <= `CS_FLUSH;
+                     state <= CS_FLUSH;
                   default:
                      if (digit_Q == 4'hf)
-                        state <= `CS_INPUT; // invalid
+                        state <= CS_INPUT; // invalid
                      else
-                        state <= `CS_APP;
+                        state <= CS_APP;
                endcase
-            `CS_X_PARSE:
+            CS_X_PARSE:
                case (operator_Q)
-                  `CO_LP: state <= `CS_PUSH_OP;
-                  `CO_AD: state <= `CS_PUSH_SIGN;
-                  `CO_SB: state <= `CS_PUSH_SIGN;
-                  `CO_MU: state <= `CS_X_INPUT;
-                  `CO_DI: state <= `CS_X_INPUT;
-                  `CO_RP: state <= `CS_X_INPUT;
-                  `CO_OK: state <= `CS_FLUSH;
+                  `CO_LP: state <= CS_PUSH_OP;
+                  `CO_AD: state <= CS_PUSH_SIGN;
+                  `CO_SB: state <= CS_PUSH_SIGN;
+                  `CO_MU: state <= CS_X_INPUT;
+                  `CO_DI: state <= CS_X_INPUT;
+                  `CO_RP: state <= CS_X_INPUT;
+                  `CO_OK: state <= CS_FLUSH;
                   default:
                      if (digit_Q == 4'hf)
-                        state <= `CS_X_INPUT; // invalid
+                        state <= CS_X_INPUT; // invalid
                      else
-                        state <= `CS_CRE;
+                        state <= CS_CRE;
                endcase
-            `CS_BACK:
+            CS_BACK:
                if (dt_empty)
-                  state <= `CS_INPUT;
+                  state <= CS_INPUT;
                else
-                  state <= `CS_BACK_CALC;
-            `CS_BACK_CALC:
-               state <= `CS_SAVE;
-            `CS_SAVE:
-               state <= `CS_INPUT;
-            `CS_CRE:
-               state <= `CS_INPUT;
-            `CS_APP:
+                  state <= CS_BACK_CALC;
+            CS_BACK_CALC:
+               state <= CS_SAVE;
+            CS_SAVE:
+               state <= CS_INPUT;
+            CS_CRE:
+               state <= CS_INPUT;
+            CS_APP:
                if (dt_empty) // invalid
-                  state <= `CS_ERROR;
+                  state <= CS_ERROR;
                else
-                  state <= `CS_APP_CALC_1;
-            `CS_APP_CALC_1:
-               state <= `CS_APP_CALC_2;
-            `CS_APP_CALC_2:
-               state <= `CS_SAVE;
-            `CS_CLEAR:
-               state <= `CS_X_INPUT;
-            `CS_FLUSH:
+                  state <= CS_APP_CALC_1;
+            CS_APP_CALC_1:
+               state <= CS_APP_CALC_2;
+            CS_APP_CALC_2:
+               state <= CS_SAVE;
+            CS_CLEAR:
+               state <= CS_X_INPUT;
+            CS_FLUSH:
                if (~op_empty)
-                  state <= `CS_COMPARE;
+                  state <= CS_COMPARE;
                else if (operator_Q == `CO_RP)
-                  state <= `CS_ERROR;
+                  state <= CS_ERROR;
                else if (operator_Q == `CO_OK)
-                  state <= `CS_INPUT;
+                  state <= CS_INPUT;
                else
-                  state <= `CS_PUSH_OP;
-            `CS_COMPARE:
+                  state <= CS_PUSH_OP;
+            CS_COMPARE:
                if (operator_Q == `CO_RP && op_data == `CO_LP)
-                  state <= `CS_POP_OP;
+                  state <= CS_POP_OP;
                else if (pr_res || operator_Q == `CO_RP && op_data != `CO_LP)
-                  state <= `CS_EVALUATE;
+                  state <= CS_EVALUATE;
                else
-                  state <= `CS_PUSH_OP;
-            `CS_EVALUATE:
+                  state <= CS_PUSH_OP;
+            CS_EVALUATE:
                if (dt_empty)
-                  state <= `CS_ERROR;
+                  state <= CS_ERROR;
                else if (operator_x_Q == `CO_PS || operator_x_Q == `CO_NS)
-                  state <= `CS_CHG_SIGN;
+                  state <= CS_CHG_SIGN;
                else
-                  state <= `CS_EVALUATE_D;
-            `CS_EVALUATE_D:
+                  state <= CS_EVALUATE_D;
+            CS_EVALUATE_D:
                if (dt_empty)
-                  state <= `CS_ERROR;
+                  state <= CS_ERROR;
                else
-                  state <= `CS_EVALUATE_DD;
-            `CS_EVALUATE_DD:
-               state <= `CS_EVALUATE_SAVE;
-            `CS_EVALUATE_SAVE:
-               state <= `CS_FLUSH;
-            `CS_CHG_SIGN:
-               state <= `CS_EVALUATE_SAVE;
-            `CS_PUSH_OP:
-               state <= `CS_X_INPUT;
-            `CS_POP_OP:
-               state <= `CS_INPUT;
-            `CS_PUSH_SIGN:
-               state <= `CS_X_INPUT;
-            `CS_ERROR:
-               state <= `CS_X_INPUT;
+                  state <= CS_EVALUATE_DD;
+            CS_EVALUATE_DD:
+               state <= CS_EVALUATE_SAVE;
+            CS_EVALUATE_SAVE:
+               state <= CS_FLUSH;
+            CS_CHG_SIGN:
+               state <= CS_EVALUATE_SAVE;
+            CS_PUSH_OP:
+               state <= CS_X_INPUT;
+            CS_POP_OP:
+               state <= CS_INPUT;
+            CS_PUSH_SIGN:
+               state <= CS_X_INPUT;
+            CS_ERROR:
+               state <= CS_X_INPUT;
          endcase
    
 endmodule

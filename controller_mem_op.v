@@ -9,22 +9,22 @@ always @(*)
       end
    else
       case (state)
-         `CS_FLUSH:
+         CS_FLUSH:
             begin
                op_data_D <= `CO_NO;
                op_cmd <= `SC_TOP;
             end
-         `CS_PUSH_OP:
+         CS_PUSH_OP:
             begin
                op_data_D <= operator_Q;
                op_cmd <= `SC_PUS;
             end
-         `CS_POP_OP, `CS_EVALUATE:
+         CS_POP_OP, CS_EVALUATE:
             begin
                op_data_D <= `CO_NO;
                op_cmd <= `SC_POP;
             end
-         `CS_PUSH_SIGN:
+         CS_PUSH_SIGN:
             case (operator_Q)
                `CO_AD:
                   begin
@@ -42,7 +42,7 @@ always @(*)
                      op_cmd <= `SC_NON;
                   end
             endcase
-         `CS_ERROR:
+         CS_ERROR:
             begin
                op_data_D <= `CO_NO;
                op_cmd <= `SC_CLR;

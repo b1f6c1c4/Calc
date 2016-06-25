@@ -7,25 +7,25 @@ always @(*)
       end
    else
       case (state)
-         `CS_BACK_CALC:
+         CS_BACK_CALC:
             begin
                al_A <= dt_data;
                al_B <= 4'd10;
                al_cmd <= `AC_DI;
             end
-         `CS_APP_CALC_1:
+         CS_APP_CALC_1:
             begin
                al_A <= dt_data;
                al_B <= 4'd10;
                al_cmd <= `AC_MU;
             end
-         `CS_APP_CALC_2:
+         CS_APP_CALC_2:
             begin
                al_A <= number_Q;
                al_B <= digit_Q;
                al_cmd <= `AC_AD;
             end
-         `CS_EVALUATE_DD:
+         CS_EVALUATE_DD:
             case (operator_x_Q)
                `CO_AD:
                   begin
@@ -58,7 +58,7 @@ always @(*)
                      al_cmd <= `AC_AD;
                   end
             endcase
-         `CS_CHG_SIGN:
+         CS_CHG_SIGN:
             case (operator_x_Q)
                `CO_PS:
                   begin

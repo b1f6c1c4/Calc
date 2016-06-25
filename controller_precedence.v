@@ -4,7 +4,7 @@ always @(*)
          pr_A <= `CO_AD;
          pr_B <= `CO_AD;
       end
-   else if (state == `CS_COMPARE)
+   else if (state == CS_COMPARE)
       begin
          pr_A <= operator_Q;
          pr_B <= op_data;

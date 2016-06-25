@@ -1,7 +1,7 @@
 always @(*)
    if (~Reset)
       operator_D <= operator_Q;
-   else if (state == `CS_INPUT || state == `CS_X_INPUT)
+   else if (state == CS_INPUT || state == CS_X_INPUT)
       case (in_cmd)
          `IC_OPAD:
             operator_D <= `CO_AD;

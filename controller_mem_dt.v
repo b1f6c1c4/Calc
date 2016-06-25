@@ -9,22 +9,22 @@ always @(*)
       end
    else
       case (state)
-         `CS_BACK, `CS_APP, `CS_CLEAR, `CS_EVALUATE, `CS_EVALUATE_D:
+         CS_BACK, CS_APP, CS_CLEAR, CS_EVALUATE, CS_EVALUATE_D:
             begin
                dt_data_D <= `CD_0;
                dt_cmd <= `SC_POP;
             end
-         `CS_SAVE, `CS_EVALUATE_SAVE:
+         CS_SAVE, CS_EVALUATE_SAVE:
             begin
                dt_data_D <= number_Q;
                dt_cmd <= `SC_PUS;
             end
-         `CS_CRE:
+         CS_CRE:
             begin
                dt_data_D <= digit_Q;
                dt_cmd <= `SC_PUS;
             end
-         `CS_ERROR:
+         CS_ERROR:
             begin
                dt_data_D <= `CD_0;
                dt_cmd <= `SC_CLR;

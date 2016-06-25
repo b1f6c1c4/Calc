@@ -91,8 +91,8 @@ set_global_assignment -name RESERVE_ALL_UNUSED_PINS_NO_OUTPUT_GND "AS INPUT TRI-
 set_global_assignment -name VERILOG_FILE Calc.v
 set_global_assignment -name VERILOG_FILE rst_recover.v
 set_global_assignment -name VERILOG_FILE clock_divider.v
-set_global_assignment -name VERILOG_FILE INPUT_INTERFACE.v
-set_global_assignment -name VERILOG_FILE OUTPUT_INTERFACE.v
+set_global_assignment -name VERILOG_INCLUDE_FILE INPUT_INTERFACE.v
+set_global_assignment -name VERILOG_INCLUDE_FILE OUTPUT_INTERFACE.v
 set_global_assignment -name VERILOG_FILE Input.v
 set_global_assignment -name VERILOG_FILE Input_buffer.v
 set_global_assignment -name VERILOG_FILE Input_classifier.v
@@ -106,15 +106,15 @@ set_global_assignment -name VERILOG_FILE Output_monostable.v
 set_global_assignment -name VERILOG_FILE Output_num_decoder.v
 set_global_assignment -name VERILOG_FILE Output_scanner.v
 set_global_assignment -name VERILOG_FILE CPU.v
-set_global_assignment -name VERILOG_FILE CPU_INTERNAL.v
+set_global_assignment -name VERILOG_INCLUDE_FILE CPU_INTERNAL.v
 set_global_assignment -name VERILOG_FILE alu.v
 set_global_assignment -name VERILOG_FILE precedence.v
 set_global_assignment -name VERILOG_FILE register.v
 set_global_assignment -name VERILOG_FILE stack.v
 set_global_assignment -name VERILOG_FILE controller.v
-set_global_assignment -name VERILOG_FILE ALU_INTERFACE.v
-set_global_assignment -name VERILOG_FILE STACK_INTERFACE.v
-set_global_assignment -name VERILOG_FILE CONT_INTERNAL.v
+set_global_assignment -name VERILOG_INCLUDE_FILE ALU_INTERFACE.v
+set_global_assignment -name VERILOG_INCLUDE_FILE STACK_INTERFACE.v
+set_global_assignment -name VERILOG_INCLUDE_FILE CONT_INTERNAL.v
 set_global_assignment -name VERILOG_INCLUDE_FILE controller_io.v
 set_global_assignment -name VERILOG_INCLUDE_FILE controller_reg_command.v
 set_global_assignment -name VERILOG_INCLUDE_FILE controller_reg_operator.v
@@ -125,5 +125,6 @@ set_global_assignment -name VERILOG_INCLUDE_FILE controller_mem_dt.v
 set_global_assignment -name VERILOG_INCLUDE_FILE controller_mem_op.v
 set_global_assignment -name VERILOG_INCLUDE_FILE controller_alu.v
 set_global_assignment -name VERILOG_INCLUDE_FILE controller_precedence.v
+
 
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
