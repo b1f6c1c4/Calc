@@ -1,11 +1,15 @@
 `default_nettype none
-module Input(
-	input Clock,
-	input Reset,
-	input [3:0] H,
-	output [3:0] V,
-   input ack,
-   output [IC_N-1:0] cmd
+module key_scan(
+   input CLK,
+   input RESET,
+   input V1, V2, V3, V4,
+   output H1, H2, H3, H4,
+   output [7:0] SRCH,
+   output [7:0] SRCL,
+   output [7:0] DSTH,
+   output [7:0] DSTL,
+   output [IC_N-1:0] ALU_OP,
+   output finish
    );
 `include "INPUT_INTERFACE.v"
    
