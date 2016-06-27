@@ -12,6 +12,9 @@ module alu(
       case (cmd)
          AC_AD: C <= A + B;
          AC_SB: C <= A - B;
+         AC_AN: C <= A & B;
+         AC_OR: C <= A | B;
+         AC_LS: C <= A < B;
          AC_MU: C <= A * B;
          AC_DI: C <= A / B;
          AC_RM: C <= A % B;

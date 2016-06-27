@@ -8,40 +8,40 @@ module Input_encoder(
 `include "INPUT_INTERFACE.v"
    
    wire NUM1, NUM2, NUM3, NUM4, NUM5, NUM6, NUM7, NUM8, NUM9, NUM0;
-   wire OPAD, OPSB, OPMU, OPDI, EXLP, EXRP, CLBK, CLCL, CTOK;
+   wire OPAD, OPSB, OPMU, OPDI, OPAN, OPOR, OPLS, EXLP, EXRP, CLBK, CLCL, CTOK;
    
    Input_diff d_NUM1(.Clock(Clock), .Reset(Reset),
-                     .btn(key[13]), .pressed(NUM1));
+                     .btn(key[15]), .pressed(NUM1));
    Input_diff d_NUM2(.Clock(Clock), .Reset(Reset),
-                     .btn(key[9]), .pressed(NUM2));
+                     .btn(key[11]), .pressed(NUM2));
    Input_diff d_NUM3(.Clock(Clock), .Reset(Reset),
-                     .btn(key[5]), .pressed(NUM3));
+                     .btn(key[7]), .pressed(NUM3));
    Input_diff d_NUM4(.Clock(Clock), .Reset(Reset),
-                     .btn(key[14]), .pressed(NUM4));
+                     .btn(key[3]), .pressed(NUM4));
    Input_diff d_NUM5(.Clock(Clock), .Reset(Reset),
-                     .btn(key[10]), .pressed(NUM5));
+                     .btn(key[14]), .pressed(NUM5));
    Input_diff d_NUM6(.Clock(Clock), .Reset(Reset),
-                     .btn(key[6]), .pressed(NUM6));
+                     .btn(key[10]), .pressed(NUM6));
    Input_diff d_NUM7(.Clock(Clock), .Reset(Reset),
-                     .btn(key[15]), .pressed(NUM7));
+                     .btn(key[6]), .pressed(NUM7));
    Input_diff d_NUM8(.Clock(Clock), .Reset(Reset),
-                     .btn(key[11]), .pressed(NUM8));
+                     .btn(key[2]), .pressed(NUM8));
    Input_diff d_NUM9(.Clock(Clock), .Reset(Reset),
-                     .btn(key[7]), .pressed(NUM9));
+                     .btn(key[13]), .pressed(NUM9));
    Input_diff d_NUM0(.Clock(Clock), .Reset(Reset),
-                     .btn(key[12]), .pressed(NUM0));
-   Input_diff d_EXLP(.Clock(Clock), .Reset(Reset),
-                     .btn(key[8]), .pressed(EXLP));
-   Input_diff d_EXRP(.Clock(Clock), .Reset(Reset),
-                     .btn(key[4]), .pressed(EXRP));
-   Input_diff d_CTOK(.Clock(Clock), .Reset(Reset),
-                     .btn(key[0]), .pressed(CTOK));
-   Input_classifier c_OPAD_OPSB(.Clock(Clock), .Reset(Reset),
-                                .btn(key[3]), .short(OPAD), .long(OPSB));
-   Input_classifier c_OPMU_OPDI(.Clock(Clock), .Reset(Reset),
-                                .btn(key[2]), .short(OPMU), .long(OPDI));
-   Input_classifier c_CLBK_CLCL(.Clock(Clock), .Reset(Reset),
-                                .btn(key[1]), .short(CLBK), .long(CLCL));
+                     .btn(key[9]), .pressed(NUM0));
+   Input_classifier c_OPAN_EXLP(.Clock(Clock), .Reset(Reset),
+                                .btn(key[12]), .short(OPAN), .long(EXLP));
+   Input_classifier c_OPOR_EXRP(.Clock(Clock), .Reset(Reset),
+                                .btn(key[8]), .short(OPOR), .long(EXRP));
+   Input_classifier c_OPAD_OPMU(.Clock(Clock), .Reset(Reset),
+                                .btn(key[5]), .short(OPAD), .long(OPMU));
+   Input_classifier c_OPSB_OPDI(.Clock(Clock), .Reset(Reset),
+                                .btn(key[1]), .short(OPSB), .long(OPDI));
+   Input_classifier c_OPLS_CLBK(.Clock(Clock), .Reset(Reset),
+                                .btn(key[4]), .short(OPLS), .long(CLBK));
+   Input_classifier c_CTOK_CLCL(.Clock(Clock), .Reset(Reset),
+                                .btn(key[0]), .short(CTOK), .long(CLCL));
    
    always @(*)
       case (1'b1)
@@ -52,6 +52,9 @@ module Input_encoder(
          OPDI: cmd <= IC_OPDI;
          OPAD: cmd <= IC_OPAD;
          OPSB: cmd <= IC_OPSB;
+         OPAN: cmd <= IC_OPAN;
+         OPOR: cmd <= IC_OPOR;
+         OPLS: cmd <= IC_OPLS;
          EXLP: cmd <= IC_EXLP;
          EXRP: cmd <= IC_EXRP;
          NUM9: cmd <= IC_NUM9;
