@@ -1,10 +1,10 @@
 `default_nettype none
 module alu(
+   input [AC_N-1:0] CS,
    input [N-1:0] data_a,
    input [N-1:0] data_b,
    input carry_in,
-   input [AC_N-1:0] CS,
-   output reg signed [N-1:0] S,
+   output reg [N-1:0] S,
    output zero,
    output reg carry_out
    );
