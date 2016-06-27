@@ -12,7 +12,8 @@ module precedence(
             case (B)
                CO_OK, CO_LP, CO_RP: lle_rlt <= 1'b1;
                CO_AD, CO_SB: lle_rlt <= 1'b1;
-               CO_MU, CO_DI: lle_rlt <= 1'b1;
+               CO_AN, CO_OR: lle_rlt <= 1'b1;
+               CO_LS: lle_rlt <= 1'b1;
                CO_PS, CO_NS: lle_rlt <= 1'b1;
                default: lle_rlt <= 1'bx;
             endcase
@@ -20,15 +21,26 @@ module precedence(
             case (B)
                CO_OK, CO_LP, CO_RP: lle_rlt <= 1'b0;
                CO_AD, CO_SB: lle_rlt <= 1'b1;
-               CO_MU, CO_DI: lle_rlt <= 1'b1;
+               CO_AN, CO_OR: lle_rlt <= 1'b1;
+               CO_LS: lle_rlt <= 1'b1;
                CO_PS, CO_NS: lle_rlt <= 1'b1;
                default: lle_rlt <= 1'bx;
             endcase
-         CO_MU, CO_DI:
+         CO_AN, CO_OR:
             case (B)
                CO_OK, CO_LP, CO_RP: lle_rlt <= 1'b0;
                CO_AD, CO_SB: lle_rlt <= 1'b0;
-               CO_MU, CO_DI: lle_rlt <= 1'b1;
+               CO_AN, CO_OR: lle_rlt <= 1'b1;
+               CO_LS: lle_rlt <= 1'b1;
+               CO_PS, CO_NS: lle_rlt <= 1'b1;
+               default: lle_rlt <= 1'bx;
+            endcase
+         CO_LS:
+            case (B)
+               CO_OK, CO_LP, CO_RP: lle_rlt <= 1'b0;
+               CO_AD, CO_SB: lle_rlt <= 1'b0;
+               CO_AN, CO_OR: lle_rlt <= 1'b0;
+               CO_LS: lle_rlt <= 1'b1;
                CO_PS, CO_NS: lle_rlt <= 1'b1;
                default: lle_rlt <= 1'bx;
             endcase
@@ -36,7 +48,8 @@ module precedence(
             case (B)
                CO_OK, CO_LP, CO_RP: lle_rlt <= 1'b0;
                CO_AD, CO_SB: lle_rlt <= 1'b0;
-               CO_MU, CO_DI: lle_rlt <= 1'b0;
+               CO_AN, CO_OR: lle_rlt <= 1'b0;
+               CO_LS: lle_rlt <= 1'b0;
                CO_PS, CO_NS: lle_rlt <= 1'b1;
                default: lle_rlt <= 1'bx;
             endcase
