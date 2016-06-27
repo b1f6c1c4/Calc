@@ -12,7 +12,7 @@ module seg(
    
    // internal nets
    wire [15:0] data = {data_inH,data_inL};
-   wire [15:0] abs_data = data[7] ? ~data + 16'b1 : data;
+   wire [15:0] abs_data = data[15] ? ~data + 16'b1 : data;
    
    wire [3:0] bcd0, bcd1, bcd2, bcd3;
    wire [0:7] oct0t, oct1t, oct2t, oct3t;
