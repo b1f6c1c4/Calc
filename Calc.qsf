@@ -99,6 +99,7 @@ set_global_assignment -name RESERVE_ALL_UNUSED_PINS_NO_OUTPUT_GND "AS INPUT TRI-
 set_global_assignment -name VERILOG_FILE Calc.v
 set_global_assignment -name VERILOG_FILE rst_recover.v
 set_global_assignment -name VERILOG_FILE clock_divider.v
+set_global_assignment -name VERILOG_INCLUDE_FILE INPUT_INTERNAL.v
 set_global_assignment -name VERILOG_INCLUDE_FILE INPUT_INTERFACE.v
 set_global_assignment -name VERILOG_FILE Input.v
 set_global_assignment -name VERILOG_FILE Input_buffer.v
