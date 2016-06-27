@@ -41,6 +41,12 @@ module Input_buffer_tb;
          #4 cmd = IC_NUM9;
          #4 cmd = IC_CTOK;
          #4 cmd = IC_CTOK;
+         #4 cmd = IC_NUM4;
+         #4 cmd = IC_CTOK;
+         #4 cmd = IC_OPSB;
+         #4 cmd = IC_CTOK;
+         #4 cmd = IC_NUM9;
+         #4 cmd = IC_CTOK;
          #4 $finish;
       end
    

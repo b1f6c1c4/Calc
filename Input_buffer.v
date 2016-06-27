@@ -24,8 +24,6 @@ module Input_buffer(
    always @(posedge Clock, negedge Reset)
       if (~Reset)
          DST <= IC_ANS;
-      else if (cmd == IC_CTOK)
-         DST <= IC_ANS;
       else
          case (state)
             S_OPER, S_FINI:
@@ -73,6 +71,14 @@ module Input_buffer(
                      DST <= DST * 16'd10 + 16'd8;
                   IC_NUM9:
                      DST <= DST * 16'd10 + 16'd9;
+                  IC_CTOK:
+                     if (state == S_DST1 || state == S_DST2)
+                        DST <= IC_ANS;
+               endcase
+            S_DST3:
+               case (cmd)
+                  IC_CTOK:
+                     DST <= IC_ANS;
                endcase
          endcase
    
@@ -149,19 +155,19 @@ module Input_buffer(
                   IC_NUM0, IC_NUM1, IC_NUM2, IC_NUM3, IC_NUM4, IC_NUM5, IC_NUM6, IC_NUM7, IC_NUM8, IC_NUM9:
                      state <= S_DST2;
                   IC_CTOK:
-                     state <= S_OPER;
+                     state <= S_FINI;
                endcase
             S_DST2:
                case (cmd)
                   IC_NUM0, IC_NUM1, IC_NUM2, IC_NUM3, IC_NUM4, IC_NUM5, IC_NUM6, IC_NUM7, IC_NUM8, IC_NUM9:
                      state <= S_DST3;
                   IC_CTOK:
-                     state <= S_OPER;
+                     state <= S_FINI;
                endcase
             S_DST3:
                case (cmd)
                   IC_CTOK:
-                     state <= S_OPER;
+                     state <= S_FINI;
                endcase
             S_FINI:
                case (cmd)
