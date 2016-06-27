@@ -40,7 +40,9 @@ module key_scan(
    
    always @(posedge Clock, negedge Reset)
       if (~Reset)
-         DST <= 16'hffff;
+         DST <= IC_ANS;
+      else if (cmd_t == IC_CTOK)
+         DST <= IC_ANS;
       else
          case (state)
             S_OPER, S_FINI:
@@ -93,7 +95,7 @@ module key_scan(
    
    always @(posedge Clock, negedge Reset)
       if (~Reset)
-         ALU_OP <= IC_AN;
+         ALU_OP <= IC_OPAN;
       else
          case (cmd_t)
             IC_OPAD, IC_OPSB, IC_OPAN, IC_OPOR, IC_OPLS:
@@ -124,7 +126,11 @@ module key_scan(
          case (state)
             S_DST1, S_DST2, S_DST3:
                finish <= 1'b1;
+            default:
+               finish <= 1'b0;
          endcase
+      else
+         finish <= 1'b0;
    
    always @(posedge Clock, negedge Reset)
       if (~Reset)
@@ -185,7 +191,7 @@ module key_scan(
    
    // main modules
    Input_keyboard keybd(.Clock(Clock), .Reset(Reset),
-                        .H(H), .V(V), .res(key));
+                        .H({V1,V2,V3,V4}), .V({H1,H2,H3,H4}), .res(key));
    
    Input_encoder enc(.Clock(Clock), .Reset(Reset),
                      .key(key), .cmd(cmd_t));

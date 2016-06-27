@@ -4,13 +4,14 @@ module seg(
    input [7:0] data_inH,
    input [7:0] data_inL,
    output [3:0] seg_sel,
-   output [7:0] data_out,
+   output [7:0] data_out
    );
    
    wire Clock = CLK_seg;
    wire Reset = 1'b1; // fake reset
    
    // internal nets
+   wire [15:0] data = {data_inH,data_inL};
    wire [15:0] abs_data = data[7] ? ~data + 16'b1 : data;
    
    wire [3:0] bcd0, bcd1, bcd2, bcd3;

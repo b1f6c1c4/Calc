@@ -9,7 +9,7 @@ module Input_encoder(
 `include "INPUT_INTERFACE.v"
    
    wire NUM1, NUM2, NUM3, NUM4, NUM5, NUM6, NUM7, NUM8, NUM9, NUM0;
-   wire OPAD, OPSB, OPAN, OPOR, CTOK;
+   wire OPAD, OPSB, OPAN, OPOR, OPLS, CTOK;
    
    Input_diff d_NUM1(.Clock(Clock), .Reset(Reset),
                      .btn(key[15]), .pressed(NUM1));
@@ -32,15 +32,15 @@ module Input_encoder(
    Input_diff d_NUM0(.Clock(Clock), .Reset(Reset),
                      .btn(key[9]), .pressed(NUM0));
    Input_diff d_OPAD(.Clock(Clock), .Reset(Reset),
-                     .btn(key[5]), .pressed(EXLP));
+                     .btn(key[5]), .pressed(OPAD));
    Input_diff d_OPSB(.Clock(Clock), .Reset(Reset),
-                     .btn(key[1]), .pressed(EXRP));
+                     .btn(key[1]), .pressed(OPSB));
    Input_diff d_OPAN(.Clock(Clock), .Reset(Reset),
-                     .btn(key[12]), .pressed(CTOK));
+                     .btn(key[12]), .pressed(OPAN));
    Input_diff d_OPOR(.Clock(Clock), .Reset(Reset),
-                     .btn(key[8]), .pressed(CTOK));
+                     .btn(key[8]), .pressed(OPOR));
    Input_diff d_OPLS(.Clock(Clock), .Reset(Reset),
-                     .btn(key[4]), .pressed(CTOK));
+                     .btn(key[4]), .pressed(OPLS));
    Input_diff d_CTOK(.Clock(Clock), .Reset(Reset),
                      .btn(key[0]), .pressed(CTOK));
    
