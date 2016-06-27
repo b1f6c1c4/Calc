@@ -51,6 +51,7 @@ module Input_encoder(
          OPOR: cmd <= IC_OPOR;
          OPAD: cmd <= IC_OPAD;
          OPSB: cmd <= IC_OPSB;
+         OPLS: cmd <= IC_OPLS;
          NUM9: cmd <= IC_NUM9;
          NUM8: cmd <= IC_NUM8;
          NUM7: cmd <= IC_NUM7;

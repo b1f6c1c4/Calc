@@ -41,7 +41,7 @@ module Calc(
    reg [1:0] state;
    reg [15:0] dataA, dataB, dataS;
    reg zero, carry, compare;
-   reg [AC_N-1:0] op;
+   reg [AC_N-1:0] op, the_op;
    
    always @(*)
       case (state)
@@ -71,6 +71,16 @@ module Calc(
       else
          out_data <= DST;
    
+   always @(*)
+      case (ALU_OP)
+         IC_OPAD: the_op <= AC_AD;
+         IC_OPSB: the_op <= AC_SB;
+         IC_OPAN: the_op <= AC_AN;
+         IC_OPOR: the_op <= AC_OR;
+         IC_OPLS: the_op <= AC_LS;
+         default: the_op <= {AC_N{1'bx}};
+      endcase
+            
    always @(posedge Clock, negedge Reset)
       if (~Reset)
          begin
@@ -88,10 +98,10 @@ module Calc(
             S_IDLE:
                if (finish)
                   begin
-                     state <= (ALU_OP == AC_LS ? S_CALH : S_CALL);
+                     state <= (the_op == AC_LS ? S_CALH : S_CALL);
                      dataA <= (SRC == IC_ANS ? dataS : SRC);
                      dataB <= DST;
-                     op <= ALU_OP;
+                     op <= the_op;
                      zero <= 1'b0;
                      carry <= 1'b0;
                      compare <= 1'b0;
