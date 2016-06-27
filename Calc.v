@@ -7,6 +7,7 @@ module Calc(
    output [3:0] SD,
    output [7:0] SEG,
    output [7:0] LD,
+   input [7:0] SB,
    output Buzz
    );
 `include "INPUT_INTERFACE.v"
@@ -15,7 +16,6 @@ module Calc(
    localparam S_CALL = 2'h1;
    localparam S_CALH = 2'h2;
    
-   assign Buzz = 1'b1;
    assign LD = {dataS[15] && (DST == IC_ANS),
                 compare,
                 zero,
@@ -42,6 +42,7 @@ module Calc(
    reg [15:0] dataA, dataB, dataS;
    reg zero, carry, compare;
    reg [AC_N-1:0] op, the_op;
+   reg music_start;
    
    always @(*)
       case (state)
@@ -80,7 +81,7 @@ module Calc(
          IC_OPLS: the_op <= AC_LS;
          default: the_op <= {AC_N{1'bx}};
       endcase
-            
+   
    always @(posedge Clock, negedge Reset)
       if (~Reset)
          begin
@@ -92,20 +93,24 @@ module Calc(
             zero <= 1'b0;
             carry <= 1'b0;
             compare <= 1'b0;
+            music_start <= 1'b0;
          end
       else
          case (state)
             S_IDLE:
-               if (finish)
-                  begin
-                     state <= (the_op == AC_LS ? S_CALH : S_CALL);
-                     dataA <= (SRC == IC_ANS ? dataS : SRC);
-                     dataB <= DST;
-                     op <= the_op;
-                     zero <= 1'b0;
-                     carry <= 1'b0;
-                     compare <= 1'b0;
-                  end
+               begin
+                  music_start <= 1'b0;
+                  if (finish)
+                     begin
+                        state <= (the_op == AC_LS ? S_CALH : S_CALL);
+                        dataA <= (SRC == IC_ANS ? dataS : SRC);
+                        dataB <= DST;
+                        op <= the_op;
+                        zero <= 1'b0;
+                        carry <= 1'b0;
+                        compare <= 1'b0;
+                     end
+               end
             S_CALL:
                case (op)
                   AC_AD, AC_SB, AC_AN, AC_OR:
@@ -123,6 +128,7 @@ module Calc(
                         zero <= 1'b0;
                         carry <= 1'b0;
                         compare <= aluS[0];
+                        music_start <= 1'b1;
                      end
                endcase
             S_CALH:
@@ -133,6 +139,7 @@ module Calc(
                         dataS[15:8] <= aluS;
                         zero <= zero && aluZero;
                         carry <= aluCout;
+                        music_start <= 1'b1;
                      end
                   AC_LS:
                      if (dataA[15] ^ dataB[15])
@@ -142,6 +149,7 @@ module Calc(
                            zero <= 1'b0;
                            carry <= 1'b0;
                            compare <= dataB[15];
+                           music_start <= 1'b1;
                         end
                      else if (aluS[0])
                         begin
@@ -150,6 +158,7 @@ module Calc(
                            zero <= 1'b0;
                            carry <= 1'b0;
                            compare <= aluS[0];
+                           music_start <= 1'b1;
                         end
                      else
                         begin
@@ -169,5 +178,11 @@ module Calc(
    seg out(.CLK_seg(Clock),
            .data_inH(out_data[15:8]), .data_inL(out_data[7:0]),
            .seg_sel(SD), .data_out(SEG));
+   Music music(.Clock(Clock), .Reset(Reset),
+               .start(music_start),
+               .start_addr(dataS[15] ? 12'd1000 : 12'd3000),
+               .stop_addr(dataS[15] ? 12'd1020 : 12'd3050),
+               .interrupt(~SB[7]),
+               .Buzz(Buzz));
    
 endmodule
