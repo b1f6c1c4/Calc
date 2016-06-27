@@ -7,4 +7,4 @@ A simple calculator written in Verilog
 |  H[3]  |   1    |   2    |   3    |   4    |
 |  H[2]  |   5    |   6    |   7    |   8    |
 |  H[1]  |   9    |   0    |   +    |   -    |
-|  H[0]  |   &    |   |    |   <    |   =    |
+|  H[0]  |   AN   |   OR   |   <    |   =    |
