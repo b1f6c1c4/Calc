@@ -138,7 +138,7 @@ module Calc(
                         state <= S_IDLE;
                         dataS[15:8] <= aluS;
                         zero <= zero && aluZero;
-                        carry <= aluCout;
+                        carry <= ~aluCout;
                         music_start <= 1'b1;
                      end
                   AC_LS:
