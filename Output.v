@@ -1,17 +1,13 @@
 `default_nettype none
-module Output(
-	input Clock,
-	input Reset,
-   input [OD_N-1:0] data,
-   input [OC_N-1:0] cmd,
-	output [0:3] SD,
-	output [0:7] SEG,
-	output [7:0] LD,
-	output Buzz
+module seg(
+   input CLK_seg,
+   input [7:0] data_inH,
+   input [7:0] data_inL,
+   output [3:0] seg_sel,
+   output [7:0] data_out,
    );
    parameter ack_len = 250000;
    parameter err_len = 25000000;
-`include "OUTPUT_INTERFACE.v"
    
    // internal nets
    reg data_sign;

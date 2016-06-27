@@ -4,8 +4,8 @@ module Calc(
    input RST,
    input [3:0] H,
    output [3:0] V,
-   output [0:3] SD,
-   output [0:7] SEG,
+   output [3:0] SD,
+   output [7:0] SEG,
    output [7:0] LD,
    output Buzz
    );
@@ -26,15 +26,15 @@ module Calc(
    
    // main modules
    key_scan in(.CLK(Clock), .RESET(Reset),
-            .V1(H[3]), .V2(H[2]), .V3(H[1]), V4(H[0]),
-            .H1(V[3]), .H2(V[2]), .H3(V[1]), H4(V[0]),
-            .SRCH(SRCH), .SRCL(SRCL), .DSTH(.DSTH), .DSTL(.DSTL),
-            .ALU_OP(ALU_OP), .finish(.finish));
+               .V1(H[3]), .V2(H[2]), .V3(H[1]), V4(H[0]),
+               .H1(V[3]), .H2(V[2]), .H3(V[1]), H4(V[0]),
+               .SRCH(SRCH), .SRCL(SRCL), .DSTH(.DSTH), .DSTL(.DSTL),
+               .ALU_OP(ALU_OP), .finish(.finish));
    CPU proc(.Clock(Clock), .Reset(Reset),
             .in_ack(in_ack), .in_cmd(in_cmd),
             .out_data(out_data), .out_cmd(out_cmd));
-   Output out(.Clock(Clock), .Reset(Reset),
-              .data(out_data), .cmd(out_cmd),
-              .SD(SD), .SEG(SEG), .LD(LD), .Buzz(Buzz));
+   seg out(.CLK_seg(Clock),
+           .data_inH(out_dataH), .data_inL(out_dataL)
+           .seg_sel(SD), .data_out(SEG));
    
 endmodule
