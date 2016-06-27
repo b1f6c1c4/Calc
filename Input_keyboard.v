@@ -6,7 +6,11 @@ module Input_keyboard(
    inout [3:0] V,
    output reg [15:0] res
    );
+`ifdef SIMULATION
+   parameter div = 8;
+`else
    parameter div = 100000;
+`endif
    
    reg [1:0] state;
    

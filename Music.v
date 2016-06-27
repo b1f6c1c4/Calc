@@ -7,6 +7,11 @@ module Music(
    input [11:0] stop_addr,
    input interrupt,
    output reg Buzz);
+`ifdef SIMULATION
+   parameter div = 100;
+`else
+   parameter div = 3000000;
+`endif
    
    reg [11:0] bound;
    wire [13:0] divisor;
@@ -14,7 +19,7 @@ module Music(
    rom r(Clock, pc, divisor);
    
    wire ena;
-   clock_divider #(3170208) cd(Clock, Reset, ena);
+   clock_divider #(div) cd(Clock, Reset, ena);
    always @(posedge Clock, negedge Reset)
       if (~Reset)
          pc <= 12'b0;

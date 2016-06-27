@@ -9,7 +9,11 @@ module Output_scanner(
    output reg [0:3] SD,
    output reg [0:7] SEG
    );
+`ifdef SIMULATION
+   parameter div = 1;
+`else
    parameter div = 50000;
+`endif
    
    reg [1:0] state;
    
