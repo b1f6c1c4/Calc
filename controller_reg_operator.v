@@ -11,6 +11,12 @@ always @(*)
             operator_D <= CO_MU;
          IC_OPDI:
             operator_D <= CO_DI;
+         IC_OPAN:
+            operator_D <= CO_AN;
+         IC_OPOR:
+            operator_D <= CO_OR;
+         IC_OPLS:
+            operator_D <= CO_LS;
          IC_EXLP:
             operator_D <= CO_LP;
          IC_EXRP:

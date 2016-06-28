@@ -30,7 +30,7 @@ always @(*)
                end
          CS_PARSE:
             case (operator_Q)
-               CO_LP, CO_AD, CO_SB, CO_MU, CO_DI, CO_RP, CO_OK:
+               CO_LP, CO_AD, CO_SB, CO_MU, CO_DI, CO_AN, CO_OR, CO_LS, CO_RP, CO_OK:
                   begin
                      out_data <= {OD_N{1'b0}};
                      out_cmd <= OC_ACK;

@@ -81,7 +81,7 @@ module controller(
             CS_PARSE:
                case (operator_Q)
                   CO_LP: state <= CS_PUSH_OP;
-                  CO_AD, CO_SB, CO_MU, CO_DI, CO_RP, CO_OK:
+                  CO_AD, CO_SB, CO_MU, CO_DI, CO_AN, CO_SB, CO_LS, CO_RP, CO_OK:
                      state <= CS_FLUSH;
                   default:
                      if (digit_Q == 4'hf)
@@ -97,6 +97,9 @@ module controller(
                   CO_MU: state <= CS_X_INPUT;
                   CO_DI: state <= CS_X_INPUT;
                   CO_RP: state <= CS_X_INPUT;
+                  CO_AN: state <= CS_X_INPUT;
+                  CO_OR: state <= CS_X_INPUT;
+                  CO_LS: state <= CS_X_INPUT;
                   CO_OK: state <= CS_FLUSH;
                   default:
                      if (digit_Q == 4'hf)

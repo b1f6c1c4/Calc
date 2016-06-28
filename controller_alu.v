@@ -51,6 +51,24 @@ always @(*)
                      al_B <= number_Q;
                      al_cmd <= AC_DI;
                   end
+               CO_AN:
+                  begin
+                     al_A <= dt_data;
+                     al_B <= number_Q;
+                     al_cmd <= AC_AN;
+                  end
+               CO_OR:
+                  begin
+                     al_A <= dt_data;
+                     al_B <= number_Q;
+                     al_cmd <= AC_OR;
+                  end
+               CO_LS:
+                  begin
+                     al_A <= dt_data;
+                     al_B <= number_Q;
+                     al_cmd <= AC_LS;
+                  end
                default:
                   begin
                      al_A <= CD_0;
