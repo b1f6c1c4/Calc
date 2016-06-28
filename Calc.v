@@ -19,7 +19,7 @@ module Calc(
    assign LD = {dataS[15] && (DST == IC_ANS),
                 compare,
                 zero,
-                carry,
+                carry ^ (op == AC_SB),
                 4'b0};
    
    // fundamental modules
@@ -138,7 +138,6 @@ module Calc(
                         state <= S_IDLE;
                         dataS[15:8] <= aluS;
                         zero <= zero && aluZero;
-                        carry <= ~aluCout;
                         music_start <= 1'b1;
                      end
                   AC_LS:
