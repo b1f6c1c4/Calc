@@ -144,7 +144,7 @@ module Calc(
                      if (dataA[15] ^ dataB[15])
                         begin
                            state <= S_IDLE;
-                           dataS <= dataB[15];
+                           dataS <= dataA[15];
                            zero <= 1'b0;
                            carry <= 1'b0;
                            compare <= dataB[15];
