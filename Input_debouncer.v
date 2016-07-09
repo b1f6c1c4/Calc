@@ -9,9 +9,9 @@ module Input_debouncer(
    );
    parameter div = 16'd25000;
    localparam dv = |div ? div - 16'd1 : 16'd0;
-   
+
    reg [15:0] count;
-   
+
    always @(posedge Clock, negedge Reset)
       if (~Reset)
          begin
@@ -28,5 +28,5 @@ module Input_debouncer(
             if (~|count)
                Q <= ~Q;
          end
-   
+
 endmodule

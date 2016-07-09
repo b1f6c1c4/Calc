@@ -47,7 +47,7 @@ module controller(
 `include "CPU_INTERNAL.v"
 `include "CONT_INTERNAL.v"
    reg [CS_N:0] state;
-   
+
 `include "controller_io.v"
 `include "controller_reg_command.v"
 `include "controller_reg_operator.v"
@@ -58,7 +58,7 @@ module controller(
 `include "controller_mem_op.v"
 `include "controller_alu.v"
 `include "controller_precedence.v"
-   
+
    always @(posedge Clock, negedge Reset)
       if (~Reset)
          state <= CS_X_INPUT;
@@ -172,5 +172,5 @@ module controller(
             CS_ERROR:
                state <= CS_X_INPUT;
          endcase
-   
+
 endmodule

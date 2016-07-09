@@ -11,18 +11,18 @@ module Calc(
    );
 `include "INPUT_INTERFACE.v"
 `include "OUTPUT_INTERFACE.v"
-   
+
    // fundamental modules
    wire Clock, Reset;
    assign Clock = CLK;
    rst_recover rst(Clock, RST, Reset);
-   
+
    // links
    wire in_ack;
    wire [IC_N-1:0] in_cmd;
    wire [OD_N-1:0] out_data;
    wire [OC_N-1:0] out_cmd;
-   
+
    // main modules
    Input in(.Clock(Clock), .Reset(Reset),
             .H(H), .V(V),
@@ -33,5 +33,5 @@ module Calc(
    Output out(.Clock(Clock), .Reset(Reset),
               .data(out_data), .cmd(out_cmd),
               .SD(SD), .SEG(SEG), .LD(LD), .Buzz(Buzz));
-   
+
 endmodule

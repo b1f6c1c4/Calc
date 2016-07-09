@@ -4,7 +4,7 @@ module Output_num_decoder(
    input dot,
    output reg [0:7] oct
    );
-   
+
    always @(*)
       begin
          oct[7] <= ~dot;
@@ -27,5 +27,5 @@ module Output_num_decoder(
             4'hf: oct[0:6] <= 7'b0111000;
          endcase
       end
-   
+
 endmodule

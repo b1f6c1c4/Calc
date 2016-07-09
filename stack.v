@@ -8,18 +8,18 @@ module stack(
    );
    parameter N = 16;
 `include "STACK_INTERFACE.v"
-   
+
    reg WE;
    reg [5:0] ram_addr;
    wire [N-1:0] buff;
    ram #(.N(N), .M(6)) memory(.Clock(Clock), .Reset(Reset),
                               .WE(WE), .A(ram_addr), .D(data), .Q(buff));
-   
+
    reg [5:0] ptr;
    reg out_ena;
    assign data = out_ena ? buff : {N{1'bz}};
    assign is_empty = ~|ptr;
-   
+
    always @(*)
       if (~Reset)
          ram_addr <= 6'b0;
@@ -38,7 +38,7 @@ module stack(
             default:
                ram_addr <= 6'bx;
          endcase
-   
+
    always @(*)
       if (~Reset)
          WE = 1'b0;
@@ -54,7 +54,7 @@ module stack(
             default:
                WE = 1'b0;
          endcase
-   
+
    always @(posedge Clock, negedge Reset)
       if (~Reset)
          begin
@@ -90,7 +90,7 @@ module stack(
             default:
                out_ena <= 1'b0;
          endcase
-   
+
 endmodule
 
 module ram(
@@ -103,9 +103,9 @@ module ram(
    );
    parameter N = 16;
    parameter M = 6;
-   
+
    reg [N-1:0] ram[0:2**M];
-   
+
    always @(posedge Clock, negedge Reset)
       if (~Reset)
          Q <= {N{1'b0}};
@@ -113,5 +113,5 @@ module ram(
          ram[A] <= D;
       else
          Q <= ram[A];
-   
+
 endmodule

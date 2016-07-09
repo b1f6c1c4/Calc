@@ -7,11 +7,11 @@ module Input_buffer(
    output reg [IC_N-1:0] out_cmd
    );
 `include "INPUT_INTERFACE.v"
-   
+
    always @(posedge Clock, negedge Reset)
       if (~Reset)
          out_cmd <= IC_NONE;
       else if (ack || in_cmd != IC_NONE)
          out_cmd <= in_cmd;
-   
+
 endmodule

@@ -5,7 +5,7 @@ module precedence(
    output reg lle_rlt
    );
 `include "CPU_INTERNAL.v"
-   
+
    always @(*)
       case (A)
          CO_OK, CO_LP, CO_RP:
@@ -55,5 +55,5 @@ module precedence(
             endcase
          default: lle_rlt <= 1'bx;
       endcase
-   
+
 endmodule

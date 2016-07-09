@@ -7,17 +7,17 @@ module Input_classifier(
    output long
    );
    parameter crit = 12500000;
-   
+
    localparam S_NP = 2'd0; // not pressed
    localparam S_PD = 2'd1; // pressed
    localparam S_TD = 2'd2; // long press trigged
-   
+
    reg [1:0] state;
    reg [31:0] count;
-   
+
    assign long = state == S_PD && ~|count;
    assign short = state == S_PD && ~btn;
-   
+
    always @(posedge Clock, negedge Reset)
       if (~Reset)
          begin
@@ -51,5 +51,5 @@ module Input_classifier(
                   count <= crit;
                end
          endcase
-   
+
 endmodule

@@ -5,7 +5,7 @@ module rst_recover(
    input RST,
    output reg Reset
    );
-   
+
    reg mid;
    always @(posedge Clock or negedge RST)
       if (~RST)
@@ -18,5 +18,5 @@ module rst_recover(
             mid <= 1'b1;
             Reset <= mid;
          end
-   
+
 endmodule

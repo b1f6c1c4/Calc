@@ -10,16 +10,16 @@ module Output_scanner(
    output reg [0:7] SEG
    );
    parameter div = 50000;
-   
+
    reg [1:0] state;
-   
+
    wire dv;
    clock_divider #(div) clk_div(Clock, Reset, dv);
-   
+
    always @(*)
       if (~Reset)
          begin
-            SD <= 4'b1111; 
+            SD <= 4'b1111;
             SEG <= 8'b00000000;
          end
       else
@@ -45,11 +45,11 @@ module Output_scanner(
                   SEG <= oct3;
                end
          endcase
-   
+
    always @(posedge Clock, negedge Reset)
       if (~Reset)
          state <= 2'd0;
       else if (dv)
          state <= state + 2'd1;
-   
+
 endmodule

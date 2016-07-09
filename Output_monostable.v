@@ -6,9 +6,9 @@ module Output_monostable(
 	input [31:0] length,
 	output reg out
 	);
-	
+
 	reg [31:0] count;
-	
+
 	always @(posedge Clock, negedge Reset)
 		if (~Reset)
 			begin
@@ -25,5 +25,5 @@ module Output_monostable(
 				count <= ~|count ? 0 : count - 1;
 				out <= |count;
 			end
-   
+
 endmodule
