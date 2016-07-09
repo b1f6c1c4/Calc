@@ -109,13 +109,13 @@ set_global_assignment -name VERILOG_FILE rst_recover.v
 set_global_assignment -name VERILOG_FILE clock_divider.v
 set_global_assignment -name VERILOG_INCLUDE_FILE INPUT_INTERNAL.v
 set_global_assignment -name VERILOG_INCLUDE_FILE INPUT_INTERFACE.v
-set_global_assignment -name VERILOG_FILE Input.v
+set_global_assignment -name VERILOG_FILE key_scan.v
 set_global_assignment -name VERILOG_FILE Input_debouncer.v
 set_global_assignment -name VERILOG_FILE Input_diff.v
 set_global_assignment -name VERILOG_FILE Input_encoder.v
 set_global_assignment -name VERILOG_FILE Input_keyboard.v
 set_global_assignment -name VERILOG_FILE Input_buffer.v
-set_global_assignment -name VERILOG_FILE Output.v
+set_global_assignment -name VERILOG_FILE seg.v
 set_global_assignment -name VERILOG_FILE Output_divider.v
 set_global_assignment -name VERILOG_FILE Output_num_decoder.v
 set_global_assignment -name VERILOG_FILE Output_scanner.v
