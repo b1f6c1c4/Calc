@@ -18,9 +18,9 @@ module Input_buffer(
    localparam S_DST2 = 3'h5;
    localparam S_DST3 = 3'h6;
    localparam S_FINI = 3'h7;
-   
+
    reg [2:0] state;
-   
+
    always @(posedge Clock, negedge Reset)
       if (~Reset)
          DST <= IC_ANS;
@@ -81,7 +81,7 @@ module Input_buffer(
                      DST <= IC_ANS;
                endcase
          endcase
-   
+
    always @(posedge Clock, negedge Reset)
       if (~Reset)
          ALU_OP <= IC_OPAN;
@@ -90,7 +90,7 @@ module Input_buffer(
             IC_OPAD, IC_OPSB, IC_OPAN, IC_OPOR, IC_OPLS:
                ALU_OP <= cmd;
          endcase
-   
+
    always @(posedge Clock, negedge Reset)
       if (~Reset)
          SRC <= 16'h0;
@@ -107,7 +107,7 @@ module Input_buffer(
                      SRC <= IC_ANS;
                endcase
          endcase
-   
+
    always @(*)
       if (~Reset)
          finish <= 1'b0;
@@ -120,7 +120,7 @@ module Input_buffer(
          endcase
       else
          finish <= 1'b0;
-   
+
    always @(posedge Clock, negedge Reset)
       if (~Reset)
          state <= S_FINI;
@@ -177,5 +177,5 @@ module Input_buffer(
                      state <= S_OPER;
                endcase
          endcase
-   
+
 endmodule

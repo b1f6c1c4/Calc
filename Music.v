@@ -12,12 +12,12 @@ module Music(
 `else
    parameter div = 3000000;
 `endif
-   
+
    reg [11:0] bound;
    wire [13:0] divisor;
    reg [11:0] pc;
    rom r(Clock, pc, divisor);
-   
+
    wire ena;
    clock_divider #(div) cd(Clock, Reset, ena);
    always @(posedge Clock, negedge Reset)
@@ -29,13 +29,13 @@ module Music(
          pc <= start_addr;
       else if (pc != bound && ena)
          pc <= pc + 12'b1;
-   
+
    always @(posedge Clock, negedge Reset)
       if (~Reset)
          bound <= 12'b0;
       else if (start)
          bound <= stop_addr;
-         
+
    reg [13:0] count;
    always @(posedge Clock, negedge Reset)
       if (~Reset)
@@ -55,7 +55,7 @@ module Music(
          end
       else
          count <= count - 14'b1;
-   
+
 endmodule
 
 module rom(
@@ -63,13 +63,13 @@ module rom(
    input [11:0] addr,
    output reg [13:0] data
    );
-   
+
    reg [13:0] rom[0:4095];
-   
+
    always @(posedge Clock)
       data <= rom[addr];
-   
+
    initial
       $readmemb("Music.list", rom);
-   
+
 endmodule

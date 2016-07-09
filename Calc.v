@@ -15,18 +15,18 @@ module Calc(
    localparam S_IDLE = 2'h0;
    localparam S_CALL = 2'h1;
    localparam S_CALH = 2'h2;
-   
+
    assign LD = {dataS[15] && (DST == IC_ANS),
                 compare,
                 zero,
                 carry ^ (op == AC_SB),
                 4'b0};
-   
+
    // fundamental modules
    wire Clock, Reset;
    assign Clock = CLK;
    rst_recover rst(Clock, RST, Reset);
-   
+
    // links
    wire [15:0] SRC, DST;
    wire [IC_N-1:0] ALU_OP;
@@ -36,14 +36,14 @@ module Calc(
    reg aluCin;
    wire aluCout, aluZero;
    reg [15:0] out_data;
-   
+
    // buff
    reg [1:0] state;
    reg [15:0] dataA, dataB, dataS;
    reg zero, carry, compare;
    reg [AC_N-1:0] op, the_op;
    reg music_start;
-   
+
    always @(*)
       case (state)
          S_CALL:
@@ -65,13 +65,13 @@ module Calc(
                aluCin <= 1'bx;
             end
       endcase
-   
+
    always @(*)
       if (DST == IC_ANS)
          out_data <= dataS;
       else
          out_data <= DST;
-   
+
    always @(*)
       case (ALU_OP)
          IC_OPAD: the_op <= AC_AD;
@@ -81,7 +81,7 @@ module Calc(
          IC_OPLS: the_op <= AC_LS;
          default: the_op <= {AC_N{1'bx}};
       endcase
-   
+
    always @(posedge Clock, negedge Reset)
       if (~Reset)
          begin
@@ -165,7 +165,7 @@ module Calc(
                         end
                endcase
          endcase
-   
+
    // main modules
    key_scan in(.CLK(Clock), .RESET(Reset),
                .V1(H[3]), .V2(H[2]), .V3(H[1]), .V4(H[0]),
@@ -183,5 +183,5 @@ module Calc(
                .stop_addr(dataS[15] ? 12'd1020 : 12'd3050),
                .interrupt(~SB[7]),
                .Buzz(Buzz));
-   
+
 endmodule

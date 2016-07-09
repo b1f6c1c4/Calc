@@ -2,7 +2,7 @@
 `timescale 10ns/1ps
 module alu_tb;
 `include "ALU_INTERFACE.v"
-   
+
    reg [7:0] data_a;
    reg [7:0] data_b;
    reg carry_in;
@@ -10,13 +10,13 @@ module alu_tb;
    wire [7:0] S;
    wire zero;
    wire carry_out;
-   
+
    alu mdl(CS, data_a, data_b, carry_in, S, zero, carry_out);
-   
+
    initial
       begin
          CS = AC_AD;
-         
+
          data_a = 8'd212;
          data_b = 8'd44;
          carry_in = 1'b0;
@@ -33,9 +33,9 @@ module alu_tb;
          data_b = 8'd64;
          carry_in = 1'b1;
          #4 $display("%d + %d + %b = %d (%b) (%b)", data_a, data_b, carry_in, S, zero, carry_out);
-         
+
          CS = AC_SB;
-         
+
          data_a = 8'd212;
          data_b = 8'd44;
          carry_in = 1'b0;
@@ -52,10 +52,10 @@ module alu_tb;
          data_b = 8'd64;
          carry_in = 1'b1;
          #4 $display("%d - %d - %b = %d (%b) (%b)", data_a, data_b, carry_in, S, zero, carry_out);
-         
+
          CS = AC_AN;
          carry_in = 1'b0;
-         
+
          data_a = 8'd212;
          data_b = 8'd44;
          #4 $display("%b & %b = %b (%b)", data_a, data_b, S, zero);
@@ -68,10 +68,10 @@ module alu_tb;
          data_a = 8'd9;
          data_b = 8'd64;
          #4 $display("%b & %b = %b (%b)", data_a, data_b, S, zero);
-         
+
          CS = AC_OR;
          carry_in = 1'b0;
-         
+
          data_a = 8'd212;
          data_b = 8'd44;
          #4 $display("%b | %b = %b (%b)", data_a, data_b, S, zero);
@@ -84,7 +84,7 @@ module alu_tb;
          data_a = 8'd9;
          data_b = 8'd64;
          #4 $display("%b | %b = %b (%b)", data_a, data_b, S, zero);
-         
+
          $finish;
       end
 endmodule

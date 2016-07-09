@@ -10,9 +10,9 @@ module alu(
    );
    parameter N = 8;
 `include "ALU_INTERFACE.v"
-   
+
    assign zero = ~|S;
-   
+
    always @(*)
       case (CS)
          AC_AD: {carry_out,S} <= data_a + data_b + carry_in;
@@ -22,5 +22,5 @@ module alu(
          AC_LS: begin S <= data_a < data_b; carry_out <= 1'b0; end
          default: begin S <= {N{1'bx}}; carry_out <= 1'b0; end
       endcase
-   
+
 endmodule

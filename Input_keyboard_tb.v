@@ -3,30 +3,30 @@
 module Input_keyboard_tb;
    parameter T = 4; // edge: k * T
    parameter N = 32;
-   
+
    reg Clock;
    reg Reset;
    wire [3:0] H;
    wire [3:0] V;
    wire [15:0] res;
-   
+
    Input_keyboard mdl(Clock, Reset, H, V, res);
-   
+
    reg [15:0] connect, connect_new, connect_xor;
-   
+
    initial
       begin
          #0 Clock = 1;
          forever
             #(T/2) Clock = ~Clock;
       end
-      
+
    initial
       begin
          #0 Reset = 0;
          #(T/2) Reset = 1;
       end
-   
+
    // 0  4  8  12
    // 1  5  9  13
    // 2  6  10 14
@@ -51,7 +51,7 @@ module Input_keyboard_tb;
    tranif1 td(H[1], V[3], connect[13]);
    tranif1 te(H[2], V[3], connect[14]);
    tranif1 tf(H[3], V[3], connect[15]);
-   
+
    integer i, j;
    initial
       begin
@@ -73,7 +73,7 @@ module Input_keyboard_tb;
          #(N*T);
          #(T) $finish;
       end
-   
+
    initial
       begin
          #(T);
@@ -84,5 +84,5 @@ module Input_keyboard_tb;
                #(N*T);
             end
       end
-   
+
 endmodule

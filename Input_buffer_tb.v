@@ -11,22 +11,22 @@ module Input_buffer_tb;
    wire [15:0] DST;
    wire [IC_N-1:0] ALU_OP;
    wire finish;
-   
+
    Input_buffer mdl(Clock, Reset, cmd, SRC, DST, ALU_OP, finish);
-   
+
    initial
       begin
          Clock = 1;
          forever
             #2 Clock = ~Clock;
       end
-   
+
    initial
       begin
          Reset = 0;
          #2 Reset = 1;
       end
-   
+
    initial
       begin
          #1 cmd = IC_NONE;
@@ -49,8 +49,8 @@ module Input_buffer_tb;
          #4 cmd = IC_CTOK;
          #4 $finish;
       end
-   
+
    always @(posedge Clock)
       $display("SRC=%d DST=%d ALU_OP=%h finish=%b", SRC, DST, ALU_OP, finish);
-   
+
 endmodule

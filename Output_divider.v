@@ -13,14 +13,14 @@ module Output_divider(
    localparam S_C2 = 3'd2;
    localparam S_C3 = 3'd3;
    localparam S_FN = 3'd4;
-   
+
    reg [15:0] num;
    wire [15:0] quo, rem;
    assign quo = num / 4'd10;
    assign rem = num % 4'd10;
-   
+
    reg [2:0] state;
-   
+
    always @(posedge Clock, negedge Reset)
       if (~Reset)
          begin
@@ -61,7 +61,7 @@ module Output_divider(
                begin
                   num <= data;
                   state <= S_C0;
-               end 
+               end
          endcase
-   
+
 endmodule

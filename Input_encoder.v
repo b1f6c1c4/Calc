@@ -7,10 +7,10 @@ module Input_encoder(
    );
 `include "INPUT_INTERNAL.v"
 `include "INPUT_INTERFACE.v"
-   
+
    wire NUM1, NUM2, NUM3, NUM4, NUM5, NUM6, NUM7, NUM8, NUM9, NUM0;
    wire OPAD, OPSB, OPAN, OPOR, OPLS, CTOK;
-   
+
    Input_diff d_NUM1(.Clock(Clock), .Reset(Reset),
                      .btn(key[15]), .pressed(NUM1));
    Input_diff d_NUM2(.Clock(Clock), .Reset(Reset),
@@ -43,7 +43,7 @@ module Input_encoder(
                      .btn(key[4]), .pressed(OPLS));
    Input_diff d_CTOK(.Clock(Clock), .Reset(Reset),
                      .btn(key[0]), .pressed(CTOK));
-   
+
    always @(*)
       case (1'b1)
          CTOK: cmd <= IC_CTOK;
@@ -64,5 +64,5 @@ module Input_encoder(
          NUM0: cmd <= IC_NUM0;
          default: cmd <= IC_NONE;
       endcase
-   
+
 endmodule
