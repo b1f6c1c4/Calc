@@ -6,10 +6,10 @@ module Input_encoder(
    output reg [IC_N-1:0] cmd
    );
 `include "INPUT_INTERFACE.v"
-   
+
    wire NUM1, NUM2, NUM3, NUM4, NUM5, NUM6, NUM7, NUM8, NUM9, NUM0;
    wire OPAD, OPSB, OPMU, OPDI, EXLP, EXRP, CLBK, CLCL, CTOK;
-   
+
    Input_diff d_NUM1(.Clock(Clock), .Reset(Reset),
                      .btn(key[13]), .pressed(NUM1));
    Input_diff d_NUM2(.Clock(Clock), .Reset(Reset),
@@ -42,7 +42,7 @@ module Input_encoder(
                                 .btn(key[2]), .short(OPMU), .long(OPDI));
    Input_classifier c_CLBK_CLCL(.Clock(Clock), .Reset(Reset),
                                 .btn(key[1]), .short(CLBK), .long(CLCL));
-   
+
    always @(*)
       case (1'b1)
          CLCL: cmd <= IC_CLCL;
@@ -66,5 +66,5 @@ module Input_encoder(
          NUM0: cmd <= IC_NUM0;
          default: cmd <= IC_NONE;
       endcase
-   
+
 endmodule

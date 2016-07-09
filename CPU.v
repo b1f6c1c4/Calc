@@ -12,7 +12,7 @@ module CPU(
 `include "STACK_INTERFACE.v"
 `include "ALU_INTERFACE.v"
 `include "CPU_INTERNAL.v"
-   
+
    // memory
    wire [CD_N-1:0] dt_data;
    wire dt_empty;
@@ -26,44 +26,44 @@ module CPU(
    stack #(CO_N) op(
       .Clock(Clock), .Reset(Reset),
       .data(op_data), .is_empty(op_empty), .cmd(op_cmd));
-   
+
    // alu
    wire [CD_N-1:0] al_A, al_B, al_C;
    wire [AC_N-1:0] al_cmd;
    alu #(CD_N) al(.A(al_A), .B(al_B),
                    .cmd(al_cmd), .C(al_C));
-   
+
    // precedence rom
    wire [CO_N-1:0] pr_A, pr_B;
    wire pr_res;
    precedence prec(.A(pr_A), .B(pr_B), .lle_rlt(pr_res));
-   
+
    // register
    wire [IC_N-1:0] command_D, command_Q;
    register #(IC_N) r_command(
       .Clock(Clock), .Reset(Reset),
       .D(command_D), .Q(command_Q));
-   
+
    wire [CO_N-1:0] operator_D, operator_Q;
    register #(CO_N) r_operator(
       .Clock(Clock), .Reset(Reset),
       .D(operator_D), .Q(operator_Q));
-   
+
    wire [CO_N-1:0] operator_x_D, operator_x_Q;
    register #(CO_N) r_operator_x(
       .Clock(Clock), .Reset(Reset),
       .D(operator_x_D), .Q(operator_x_Q));
-   
+
    wire [CD_N-1:0] number_D, number_Q;
    register #(CD_N) r_number(
       .Clock(Clock), .Reset(Reset),
       .D(number_D), .Q(number_Q));
-   
+
    wire [3:0] digit_D, digit_Q;
    register #(4) r_digit(
       .Clock(Clock), .Reset(Reset),
       .D(digit_D), .Q(digit_Q));
-   
+
    // controller
    controller con(
       .Clock(Clock), .Reset(Reset),
@@ -84,5 +84,5 @@ module CPU(
       // precedence rom
       .pr_A(pr_A), .pr_B(pr_B), .pr_res(pr_res)
       );
-   
+
 endmodule

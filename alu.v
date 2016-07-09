@@ -7,7 +7,7 @@ module alu(
    );
    parameter N = 16;
 `include "ALU_INTERFACE.v"
-   
+
    always @(*)
       case (cmd)
          AC_AD: C <= A + B;
@@ -17,5 +17,5 @@ module alu(
          AC_RM: C <= A % B;
          default: C <= {N{1'bx}};
       endcase
-   
+
 endmodule
